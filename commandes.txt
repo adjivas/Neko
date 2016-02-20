@@ -1,0 +1,4 @@
+$ convert -resize "3605x^5250" -gravity center neko-wikipe-tan.png bneko-wikipe-tan.png # Resize Image
+$ convert bneko-wikipe-tan.png bneko-wikipe-tan.svg # Convert Image to Vectorial
+$ convert -crop 515x1050 bneko-wikipe-tan.svg bneko-wikipe-tan-%d.png
+$ xargs -0 -n1 -I '{}' sh -c "convert {} $(echo {}.svg)" < <(tr '\n' '\0' < <(ls bneko-wikipe-tan-*.png))

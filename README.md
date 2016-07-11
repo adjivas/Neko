@@ -1,1 +1,1 @@
-pdflatex doc.tex
+pdflatex doc.tex or xelatex doc.tex

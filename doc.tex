@@ -3,33 +3,51 @@
 \newcommand{\name}{\textit{Arcana}}
 \newcommand{\program}{\textit{NEKO}}
 
+\usepackage{fontspec}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
 \usepackage[a4paper]{geometry}
 \usepackage{babel}
 \usepackage{scrextend}
+\usepackage[]{dot2texi}
+\usepackage{tikz}
+
+\usetikzlibrary{shapes,arrows}
 \begin{document}
 
 \tableofcontents
 
 \section{Préambule}
 
-Une nékoe est-un caractère d'animé japonais avec des traits de chat -mimikko-.
+Une nékoe est un caractère d'animé japonais avec des traits de chat
+\textendash{ mimikko
+	\footnote{ Kemonomimi ou mimikko est un personnage humain d'animé avec des caractéristiques animales tel que la personnalité ou encore le physique
+		\textendash{ 獣耳 } \textendash.
+			}} \textendash.
+
+Le GlyphArt est l'écriture d'une image via des caractères compris dans l'Unicode privé
 
 \addcontentsline{toc}{section}{Unnumbered Section Préambule}
 
 \section{Introduction}
 
-$\program$ est-un prompt nommée $\name$ et qui apportera les Arts, la Culture et son assistance a qui saura utiliser un shell.
+$\program$ est un prompt nommée $\name$ et qui apportera les Arts, la Culture et son assistance a qui saura utiliser un shell.
 Humanisée d’émotion et fondé sur l’experience de la chambre chinoise, celle-si sera donc instruite via des biblioteques.
 
 La liste des commandes est :
 
 \begin{labeling}{Longer label\quad}
-\item[Mount] monte dynamique une biblioteques.
-\item[Emotion] change l'expression de $\name$.
+	\item[Mount] monte dynamiquement une biblioteques.
+	\item[Emotion] change l'expression de $\name$.
 \end{labeling}
+
+\begin{dot2tex}[neato,mathmode]
+digraph G {
+	node [shape="circle"];
+	a_1 -> a_2 -> a_3 -> a_4 -> a_1;
+}
+\end{dot2tex}
 
 \addcontentsline{toc}{section}{Unnumbered Section Introduction}
 

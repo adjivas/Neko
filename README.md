@@ -1,1 +1,6 @@
-pdflatex doc.tex or xelatex doc.tex
+# NEKO
+
+[![license-badge][]][license]
+
+[license-badge]: https://travis-ci.org/adjivas/Neko.svg?branch=master&style=flat-square
+[license]: https://travis-ci.org/adjivas/Neko

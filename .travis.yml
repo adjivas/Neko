@@ -11,6 +11,7 @@ before_install:
 install:
   - PATH=$HOME/texlive/bin/x86_64-linux:$PATH
   - pip install dot2tex
+  - pip install graphviz
   - tlmgr update --self --all
   - tlmgr install babel-french
 script:

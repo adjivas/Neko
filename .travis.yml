@@ -11,4 +11,5 @@ install:
   - tlmgr update --self --all
 
 script:
-  - make
+  - make a4
+  - make c5

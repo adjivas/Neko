@@ -1,17 +1,23 @@
-\documentclass[french]{article}
+\documentclass{article}
 
-\newcommand{\name}{\textit{Arcana}}
+\newcommand{\name}{\textit{Arcana Azurea}}
 \newcommand{\program}{\textit{NEKO}}
 
-\usepackage{fontspec}
 \usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
+\usepackage{fontspec}
 \usepackage[a4paper]{geometry}
-\usepackage{babel}
 \usepackage{scrextend}
 \usepackage[]{dot2texi}
 \usepackage{tikz}
+
+\setmainfont[
+    Path = fonts/sazanami-neko/,
+    Extension = .ttf,
+    Ligatures = TeX
+]{sazanami-gothic}
 
 \usetikzlibrary{shapes,arrows}
 \begin{document}
@@ -28,18 +34,19 @@ Une nékoe est un caractère d'animé japonais avec des traits de chat
 
 Le GlyphArt est l'écriture d'une image via des caractères compris dans l'Unicode privé
 
-\addcontentsline{toc}{section}{Unnumbered Section Préambule}
+$\name$ est une programmeuse nékoe de fiction inventé pour assister des utilisateurs.
 
 \section{Introduction}
 
 $\program$ est un prompt nommée $\name$ et qui apportera les Arts, la Culture et son assistance a qui saura utiliser un shell.
-Humanisée d’émotion et fondé sur l’experience de la chambre chinoise, celle-si sera donc instruite via des biblioteques.
+Humanisée d’émotion et fondé sur l'experience de la chambre chinoise, celle-si sera donc instruite via des biblioteques.
 
 La liste des commandes est :
 
 \begin{labeling}{Longer label\quad}
-	\item[Mount] monte dynamiquement une biblioteques.
-	\item[Emotion] change l'expression de $\name$.
+	\item[\textbf{-m, --mount}] monte dynamiquement une biblioteques.
+	\item[\textbf{-c, --config, --configuration}] initialise le programme avec une nouvelle liste de biblioteques.
+	\item[\textbf{-e, --emotion}] change l'expression de $\name$.
 \end{labeling}
 
 \begin{dot2tex}[neato,mathmode]
@@ -48,7 +55,5 @@ digraph G {
 	a_1 -> a_2 -> a_3 -> a_4 -> a_1;
 }
 \end{dot2tex}
-
-\addcontentsline{toc}{section}{Unnumbered Section Introduction}
 
 \end{document}

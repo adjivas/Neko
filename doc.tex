@@ -5,6 +5,7 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage[french]{babel}
+\usepackage{xeCJK}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
 \usepackage{fontspec}
@@ -13,7 +14,13 @@
 \usepackage[]{dot2texi}
 \usepackage{tikz}
 
-\setmainfont[
+\setCJKmainfont[
+    Path = fonts/sazanami-neko/,
+    Extension = .ttf,
+    Ligatures = TeX
+]{sazanami-mincho}
+
+\setCJKsansfont[
     Path = fonts/sazanami-neko/,
     Extension = .ttf,
     Ligatures = TeX
@@ -26,7 +33,7 @@
 
 \section{Préambule}
 
-Une nékoe est un caractère d'animé japonais avec des traits de chat
+Une nékoe est un personnage d'animé japonais avec des traits de chat
 \textendash{ mimikko
 	\footnote{ Kemonomimi ou mimikko est un personnage humain d'animé avec des caractéristiques animales tel que la personnalité ou encore le physique
 		\textendash{ 獣耳 } \textendash.
@@ -38,8 +45,8 @@ $\name$ est une programmeuse nékoe de fiction inventé pour assister des utilis
 
 \section{Introduction}
 
-$\program$ est un prompt nommée $\name$ et qui apportera les Arts, la Culture et son assistance a qui saura utiliser un shell.
-Humanisée d’émotion et fondé sur l'experience de la chambre chinoise, celle-si sera donc instruite via des biblioteques.
+$\program$ est un prompt nommé $\name$ et qui apportera les Arts, la Culture et son assistance a qui saura utiliser un shell.
+Humanisée d’émotions et fondée sur l'experience de la chambre chinoise, celle-ci sera donc instruite via des biblioteques.
 
 La liste des commandes est :
 

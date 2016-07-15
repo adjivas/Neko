@@ -1,8 +1,18 @@
-*.swp
 *.aux
 *.log
 *.toc
 *.pdf
 *.dot
+*.out
 *.fls
 *.fdb_latexmk
+*.cache
+
+# VIM
+*.swp
+*.swo
+
+# OS X
+*.DS_Store
+*._.DS_Store
+*.nfs.*

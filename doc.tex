@@ -1,65 +1,100 @@
-\documentclass{article}
+\documentclass{book}
 
 \newcommand{\name}{\textit{Arcana Azurea}}
 \newcommand{\program}{\textit{NEKO}}
 
 \usepackage[utf8]{inputenc}
 \usepackage[french]{babel}
-\usepackage{xeCJK}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
 \usepackage{fontspec}
 \usepackage[a4paper]{geometry}
 \usepackage{scrextend}
-\usepackage[]{dot2texi}
+\usepackage{listings}
+\usepackage[unicode=true]{hyperref}
+\usepackage[pgf]{dot2texi}
+\usepackage{pgf}
 \usepackage{tikz}
 
-\setCJKmainfont[
+\usetikzlibrary{automata}
+
+\setmainfont[
     Path = fonts/sazanami-neko/,
     Extension = .ttf,
     Ligatures = TeX
 ]{sazanami-mincho}
 
-\setCJKsansfont[
+\setsansfont[
     Path = fonts/sazanami-neko/,
     Extension = .ttf,
     Ligatures = TeX
 ]{sazanami-gothic}
 
-\usetikzlibrary{shapes,arrows}
 \begin{document}
 
 \tableofcontents
 
+\chapter{Premiere partie}
+
 \section{Préambule}
 
-Une nékoe est un personnage d'animé japonais avec des traits de chat
+\begin{lstlisting}
+\
+\
+\
+\
+\
+\end{lstlisting}
+
+Une nékoe est un persona d'animé japonais avec des traits de chat
 \textendash{ mimikko
 	\footnote{ Kemonomimi ou mimikko est un personnage humain d'animé avec des caractéristiques animales tel que la personnalité ou encore le physique
 		\textendash{ 獣耳 } \textendash.
 			}} \textendash.
 
-Le GlyphArt est l'écriture d'une image via des caractères compris dans l'Unicode privé
+Le GlyphArt est l'écriture d'une image via des caractères compris dans l'Unicode privé, ce projet démontre ce procédé via
+\href{https://limaconoob.github.io/Image2font}{Image2font}.
 
-$\name$ est une programmeuse nékoe de fiction inventé pour assister des utilisateurs.
+$\name$ est une programmeuse nékoe de fiction inventé pour assister son utilisateur.
 
 \section{Introduction}
-
+\thispagestyle{empty}
 $\program$ est un prompt nommé $\name$ et qui apportera les Arts, la Culture et son assistance a qui saura utiliser un shell.
 Humanisée d’émotions et fondée sur l'experience de la chambre chinoise, celle-ci sera donc instruite via des biblioteques.
 
 La liste des commandes est :
 
 \begin{labeling}{Longer label\quad}
-	\item[\textbf{-m, --mount}] monte dynamiquement une biblioteques.
-	\item[\textbf{-c, --config, --configuration}] initialise le programme avec une nouvelle liste de biblioteques.
-	\item[\textbf{-e, --emotion}] change l'expression de $\name$.
+	\item[\textbf{-m, --mount <[<name, link, object>, ...]>}] monte dynamiquement une liste de biblioteques depuis un nom, un lien ou un objet.
+	\item[\textbf{-c, --config, --configuration <name>}] initialise le programme avec une nouvelle liste de biblioteques.
+	\item[\textbf{-s, --sprite <position> [<attribut>, ...]}] change l'expression de $\name$ .
 \end{labeling}
 
-\begin{dot2tex}[neato,mathmode]
-digraph G {
-	node [shape="circle"];
-	a_1 -> a_2 -> a_3 -> a_4 -> a_1;
+\section{NEKO}
+
+\begin{dot2tex}[dot]
+digraph UML {
+	d2tstyleonly = true;
+	node [shape = "box", width = "3", texmode="math", style = "top color=cyan!10,bottom color=cyan!35,draw=cyan!50,rounded corners"];
+
+	node0 [label="2:A<1>"];
+
+	nodePosition [label="Position\n
+		hair:Option{<}Attribut{>}
+		eyes:Option{<}Attribut{>}
+		nose:Option{<}Attribut{>}
+		mouth:Option{<}Attribut{>}
+		neck:Option{<}Attribut{>}
+		tail:Option{<}Attribut{>}
+		foot:Option{<}Attribut{>}
+	"];
+
+	nodeSprite [label="Trait Sprite\n
+		
+	"];
+
+	node0 -> nodePosition;
+
 }
 \end{dot2tex}
 

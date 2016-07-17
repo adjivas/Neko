@@ -3,10 +3,9 @@
 \newcommand{\name}{\textit{Arcana Azurea}}
 \newcommand{\program}{\textit{NEKO}}
 
-\usepackage[utf8]{inputenc}
 \usepackage[french]{babel}
 \usepackage[T1]{fontenc}
-\usepackage{lmodern}
+\usepackage[utf8]{inputenc}
 \usepackage{fontspec}
 \usepackage[a4paper]{geometry}
 \usepackage{scrextend}
@@ -21,13 +20,15 @@
 \setmainfont[
     Path = fonts/sazanami-neko/,
     Extension = .ttf,
-    Ligatures = TeX
+    Ligatures = TeX,
+    Scale = MatchLowercase,
 ]{sazanami-mincho}
 
 \setsansfont[
     Path = fonts/sazanami-neko/,
     Extension = .ttf,
-    Ligatures = TeX
+    Ligatures = TeX,
+    Scale = MatchLowercase,
 ]{sazanami-gothic}
 
 \begin{document}
@@ -38,13 +39,13 @@
 
 \section{Préambule}
 
-\begin{lstlisting}
-\
-\
-\
-\
-\
-\end{lstlisting}
+\begin{minipage}{1in}
+  \symbol{"E000}\symbol{"E001}\symbol{"E002}\symbol{"E003}\symbol{"E004}\symbol{"E005}\symbol{"E006}\symbol{"E007}\symbol{"E008}\symbol{"E009}\\*
+  \symbol{"E00A}\symbol{"E00B}\symbol{"E00C}\symbol{"E00D}\symbol{"E00E}\symbol{"E00F}\symbol{"E010}\symbol{"E011}\symbol{"E012}\symbol{"E013}\\*
+  \symbol{"E014}\symbol{"E015}\symbol{"E016}\symbol{"E017}\symbol{"E018}\symbol{"E019}\symbol{"E01A}\symbol{"E01B}\symbol{"E01C}\symbol{"E01D}\\*
+  \symbol{"E01E}\symbol{"E01F}\symbol{"E020}\symbol{"E021}\symbol{"E022}\symbol{"E023}\symbol{"E024}\symbol{"E025}\symbol{"E026}\symbol{"E027}\\*
+  \symbol{"E028}\symbol{"E029}\symbol{"E02A}\symbol{"E02B}\symbol{"E02C}\symbol{"E02D}\symbol{"E02E}\symbol{"E02F}\symbol{"E030}\symbol{"E031}\\*
+\end{minipage}
 
 Une nékoe est un persona d'animé japonais avec des traits de chat
 \textendash{ mimikko
@@ -90,7 +91,7 @@ digraph UML {
 	"];
 
 	nodeSprite [label="Trait Sprite\n
-		
+
 	"];
 
 	node0 -> nodePosition;

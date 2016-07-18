@@ -1,6 +1,6 @@
-\documentclass{book}
+\documentclass{report}
 
-\newcommand{\name}{\textit{Arcana Azurea}}
+\newcommand{\name}{\textit{Arcana Azurea Neferpitou}}
 \newcommand{\program}{\textit{NEKO}}
 
 \usepackage[french]{babel}
@@ -14,6 +14,13 @@
 \usepackage[pgf]{dot2texi}
 \usepackage{pgf}
 \usepackage{tikz}
+\usepackage{fancyhdr}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\leftmark}
+\rhead{\rightmark}
+\rfoot{\thepage}
 
 \usetikzlibrary{automata}
 
@@ -30,6 +37,20 @@
     Ligatures = TeX,
     Scale = MatchLowercase,
 ]{sazanami-gothic}
+
+\title{"neko"}
+
+\author{
+   adjivas
+   \and
+   brezaire
+   \and
+   flime
+   \and
+   jpepin
+}
+
+\date{}
 
 \begin{document}
 
@@ -51,7 +72,7 @@
 Une nékoe est un persona d'animé japonais avec des traits de chat
 \textendash{ mimikko
 	\footnote{ Kemonomimi ou mimikko est un personnage humain d'animé avec des caractéristiques animales tel que la personnalité ou encore le physique
-		\textendash{ 獣耳 } \textendash.
+		\textendash{ 獣耳 }\textendash.
 			}} \textendash.
 
 Le GlyphArt est l'écriture d'une image via des caractères compris dans l'Unicode privé, ce projet démontre ce procédé via

@@ -10,19 +10,31 @@
 \usepackage[a4paper]{geometry}
 \usepackage{scrextend}
 \usepackage{listings}
-\usepackage[unicode=true]{hyperref}
+\usepackage[hidelinks,unicode=true]{hyperref}
 \usepackage[pgf]{dot2texi}
 \usepackage{pgf}
 \usepackage{tikz}
 \usepackage{fancyhdr}
+\usepackage{sectsty}
+\usepackage{titlesec}
+
+\titleformat{\chapter}[display]
+  {\Huge}
+  {\filleft\texttt{\chaptertitlename} \Huge\thechapter}
+  {0ex}
+  {\filleft}
+  [\titlerule]
+
+\usetikzlibrary{automata}
 
 \pagestyle{fancy}
 \fancyhf{}
+
 \lhead{\leftmark}
 \rhead{\rightmark}
 \rfoot{\thepage}
 
-\usetikzlibrary{automata}
+\chapterfont{\raggedleft}
 
 \setmainfont[
     Path = fonts/sazanami-neko/,
@@ -88,7 +100,7 @@ Humanisée d’émotions et fondée sur l'experience de la chambre chinoise, cel
 La liste des commandes est :
 
 \begin{labeling}{Longer label\quad}
-	\item[\textbf{-m, --mount <[<name, link, object>, ...]>}] monte dynamiquement une liste de biblioteques depuis un nom, un lien ou un objet.
+	\item[\textbf{-m, --mount <[<name, link, object>, ...]>}] monte dynamiquement une liste de biblioteques depuis un paquet, un dépôt Git ou un fichier.
 	\item[\textbf{-c, --config, --configuration <name>}] initialise le programme avec une nouvelle liste de biblioteques.
 	\item[\textbf{-s, --sprite <position> [<attribut>, ...]}] change l'expression de $\name$ .
 \end{labeling}

@@ -1,0 +1,17 @@
+[package]
+name = "neko"
+version = "0.0.1"
+authors = ["adjivas <adjivas@users.noreply.github.com>", "brezaire <brezaire@users.noreply.github.com>", "LinFeiLong <LinFeiLong@users.noreply.github.com>", "limaconoob <limaconoob@users.noreply.github.com>"]
+description = ""
+documentation = "https://adjivas.github.io/Neko/neko"
+repository = "https://github.com/adjivas/Neko.git"
+readme = "README.md"
+keywords = ["neko", "glyphArt"]
+license = "GPL-3.0"
+
+[[bin]]
+name = "neko"
+doc = false
+
+[features]
+unstable = [] # for travis-cargo

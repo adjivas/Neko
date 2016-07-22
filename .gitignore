@@ -8,6 +8,9 @@
 *.fdb_latexmk
 *.cache
 
+# Makefile
+latexbok-a4-dot2tex-fig1.tex
+
 # VIM
 *.swp
 *.swo

@@ -107,29 +107,61 @@ La liste des commandes est :
 
 \section{NEKO}
 
-\begin{dot2tex}[dot]
+\begin{dot2tex}[dot,scale=0.5]
 digraph UML {
 	d2tstyleonly = true;
-	node [shape = "box", width = "3", texmode="math", style = "top color=cyan!10,bottom color=cyan!35,draw=cyan!50,rounded corners"];
+	node [shape = "box", width = "6", texmode="math", style = "top color=cyan!10,bottom color=cyan!35,draw=cyan!50,rounded corners"];
 
-	node0 [label="2:A<1>"];
-
-	nodePosition [label="Position\n
-		hair:Option{<}Attribut{>}
-		eyes:Option{<}Attribut{>}
-		nose:Option{<}Attribut{>}
-		mouth:Option{<}Attribut{>}
-		neck:Option{<}Attribut{>}
-		tail:Option{<}Attribut{>}
-		foot:Option{<}Attribut{>}
+  nodePartError [label="Enum PartError<Display + Debug + Error>\n
+    UnknownPart
+    ForbiddenGlyph(char)
 	"];
 
-	nodeSprite [label="Trait Sprite\n
-
+	nodePart [label="Enum Part\n
+    EyeLeft(char)
+    EyeRight(char)
+    EarLeft(char)
+    EarRight(char)
+    Nose(char)
+    Mouth(char)
+    Neck(char)
+    {}
+    + new(limb: str, glyph: char) => Result<Self>
 	"];
 
-	node0 -> nodePosition;
+  nodeInventoryError [label="Enum InventoryError<Display + Debug + Error>\n
+      Duplicate
+      BadPart(PartError)
+  "];
 
+  nodeInventory [label="Struct Inventory<Default>\n
+    (HashMap<(Vec<String>, String), Part>)
+    {}
+    + insert(mut self, limb: str, name: str, glyph: char) => Result<()>
+  "];
+
+  nodePosition [label="Struct Position\n
+    const MAX_X: usize = 7;
+    const MAX_Y: usize = 10;
+    ([[Part; MAX_X]; MAX_Y])
+    {}
+    + new(self: [[Part; MAX_X]; MAX_Y]) => Self
+  "];
+
+  nodeAvatar [label="Struct Avatar\n
+    attribut: Inventory
+    appearance: Hashmap<String, Position>
+    {}
+    + new(inventoryfile: Vec<str>, positionfile: Vec<str>) => Result<Self>
+  "];
+
+  nodePart -> nodeInventory;
+  nodePart -> nodePosition;
+	nodePartError -> nodePart;
+  nodePartError -> nodeInventoryError;
+  nodeInventoryError -> nodeInventory;
+  nodeInventory -> nodeAvatar;
+  nodePosition -> nodeAvatar;
 }
 \end{dot2tex}
 

@@ -7,9 +7,7 @@
 
 mod err;
 
-pub use self::err::PartError;
-
-pub type PartResult<T> = Result<T, PartError>;
+pub use self::err::{PartError, Result};
 
 pub enum Part {
     EyeLeft(char),
@@ -22,7 +20,7 @@ pub enum Part {
 }
 
 impl Part {
-    pub fn new(limb: &str, glyph: char) -> PartResult<Self> {
+    pub fn new(limb: &str, glyph: char) -> Result<Self> {
         match limb {
             "EyeLeft" => Ok(Part::EyeLeft(glyph)),
             _ => Err(PartError::UnknownPart),

@@ -5,12 +5,12 @@
 // This file may not be copied, modified, or distributed
 // except according to those terms.
 
-extern crate std;
-
 use std::fmt;
 use std::error::Error;
 
 use super::part::PartError;
+
+pub type Result<T> = ::std::result::Result<T, InventoryError>;
 
 #[derive(Debug)]
 pub enum InventoryError {
@@ -27,9 +27,15 @@ impl fmt::Display for InventoryError {
 impl Error for InventoryError {
     fn description(&self) -> &str {
         match *self {
-            InventoryError::Duplicate => "already added",
-            InventoryError::BadPart(ref why) => why.description(),
+            InventoryError::Duplicate => "Key already added",
+            InventoryError::BadPart(_) => "There is something wrong with `Part`",
+        }
+    }
+
+    fn cause(&self) -> Option<&Error> {
+        match *self {
+            InventoryError::Duplicate => None,
+            InventoryError::BadPart(ref err) => Some(err),
         }
     }
 }
-

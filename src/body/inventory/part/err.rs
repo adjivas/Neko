@@ -5,11 +5,10 @@
 // This file may not be copied, modified, or distributed
 // except according to those terms.
 
-
-extern crate std;
-
 use std::fmt;
 use std::error::Error;
+
+pub type Result<T> = ::std::result::Result<T, PartError>;
 
 #[derive(Debug)]
 pub enum PartError {
@@ -26,9 +25,12 @@ impl fmt::Display for PartError {
 impl Error for PartError {
     fn description(&self) -> &str {
         match *self {
-            PartError::UnknownPart => "the name of part is unknown",
-            PartError::ForbiddenGlyph(_) => "the glyph is on a forbidden range",
+            PartError::UnknownPart => "The name of part is unknown",
+            PartError::ForbiddenGlyph(_) => "The glyph is on a forbidden range",
         }
     }
-}
 
+    fn cause(&self) -> Option<&Error> {
+        None
+    }
+}

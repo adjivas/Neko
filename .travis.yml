@@ -9,12 +9,20 @@ addons:
     - binutils-dev
 rust:
   - nightly
+  - stable
 os:
-- linux
+  - linux
+  - osx
+matrix:
+  allow_failures:
+    - rust: nightly
 before_script:
-- |
-  pip install 'travis-cargo<0.2' --user &&
-  export PATH=$HOME/.local/bin:$PATH
+  - |
+    python --version &&
+    pip --version &&
+    pip install 'travis-cargo<0.2' --user &&
+    export PATH=$HOME/.local/bin:$PATH &&
+    export PATH=$HOME/Library/Python/2.7/bin:$PATH
 script:
 - |
   travis-cargo build &&
@@ -22,10 +30,11 @@ script:
   travis-cargo bench &&
   cargo rustdoc -- --no-defaults --passes "collapse-docs" --passes "unindent-comments"
 after_success:
-- travis-cargo --only nightly doc-upload
+- travis-cargo --only stable coveralls --no-sudo
 - travis-cargo coveralls --no-sudo --verify
 env:
   matrix:
+  - TRAVIS_CARGO_NIGHTLY_FEATURE=dev
   - FEATURES=travis
   - FEATURES=lint
   global:

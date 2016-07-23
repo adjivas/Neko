@@ -97,20 +97,49 @@ $\name$ est une programmeuse nékoe de fiction inventé pour assister son utilis
 $\program$ est un prompt nommé $\name$ et qui apportera les Arts, la Culture et son assistance a qui saura utiliser un shell.
 Humanisée d’émotions et fondée sur l'experience de la chambre chinoise, celle-ci sera donc instruite via des biblioteques.
 
+La liste des options est :
+\begin{labeling}{Longer label\quad}
+	\item[\textbf{
+		\textendash p,
+		\textendash\textendash from-part <file.neko.part, ...>}] innitialise une liste de 
+			\textendash{texels}
+				\footnote{ Un texel ou élément de texture est l'unité fondamental de mesure d'une texture. }.
+	\item[\textbf{
+		\textendash s,
+		\textendash\textendash from-sprite <file.neko.sprite, ...>}] innitialise une liste de
+			\textendash{sprite}
+				\footnote{ Un sprite est une texture délimitait par une surface. }.
+\end{labeling}
+
 La liste des commandes est :
 
 \begin{labeling}{Longer label\quad}
-	\item[\textbf{-m, --mount <[<name, link, object>, ...]>}] monte dynamiquement une liste de biblioteques depuis un paquet, un dépôt Git ou un fichier.
-	\item[\textbf{-c, --config, --configuration <name>}] initialise le programme avec une nouvelle liste de biblioteques.
-	\item[\textbf{-s, --sprite <position> [<attribut>, ...]}] change l'expression de $\name$ .
+	\item[\textbf{
+		\textendash m,
+		\textendash\textendash mount <[<name, link, object>, ...]>
+	}] monte dynamiquement une liste de biblioteques depuis un paquet, un dépôt Git ou un fichier.
+	\item[\textbf{
+		\textendash c,
+		\textendash\textendash config,
+		\textendash\textendash configuration <name>
+	}] initialise le programme avec une nouvelle liste de biblioteques.
+	\item[\textbf{
+		\textendash s,
+		\textendash\textendash sprite <position> [<attribut>, ...]
+	}] change l'expression de $\name$ .
 \end{labeling}
 
-\section{NEKO}
+\subsection{Module Graphique}
 
-\begin{dot2tex}[dot,scale=0.2]
+Ce module est l'interface d'une liste de primitives telles que des texels et des sprites qui ponrront ce combiner en de nouveaux sprites.
+
+\begin{figure}[!h]
+\centering
+  \begin{dot2tex}[dot,scale=0.35]
 digraph UML {
   d2tstyleonly = true;
-  node [shape = "box", width = "8", texmode="math", style = "top color=cyan!10,bottom color=cyan!35,draw=cyan!50,rounded corners"];
+  node [shape = "box", width = "4.5", texmode="verbatim", style = "top color=cyan!10,bottom color=cyan!35,draw=cyan!50,rounded corners"];
+  graph [shape = "box", texmode="math", style = "top color=blue!10,bottom color=blue!35,draw=blue!50"];
 
   nodePartError [label="Enum PartError<Display + Debug + Error>\n
     UnknownPart
@@ -126,9 +155,9 @@ digraph UML {
     Mouth(char)
     Neck(char)
 	ShoulderLeft(char)
-	ShoulderRight(char)
-    {}
-    + new(limb: str, glyph: char) => Result<Self>
+	ShoulderRight(char)\
+    \n
+    + new(limb: &str, glyph: char) -> Result<Self>
   "];
 
   nodeManagerError [label="Enum ManagerError<Display + Debug + Error>\n
@@ -138,22 +167,23 @@ digraph UML {
 
   nodeManager [label="Struct Manager<Default>\n
     part: HashMap<(Posture, Emotion), Part>
-	sprite: HashMap<String, Sprite>
-    {}
-    + insert_part(mut self, key: (Posture, Emotion), value: Part) => Result<()>
-	+ insert_sprite(mut self, key: String, value: Sprite) => Result<()>
-  "];
+	sprite: HashMap<String, Sprite>\
+	\n
+    + insert_part(&mut self, key: (Posture, Emotion), value: Part) -> Result<()>
+	+ insert_sprite(&mut self, key: String, value: Sprite) -> Result<()>
+  ", width = 8.5];
 
-  nodePosture [label="Enum Posture\n
-    LotusHandsOnFloor
-	LyingOnSomething
-  "];
-
-  nodeEmotion [label="Enum Emotion\n
-    Happy
-	Malicious
-	None
-  "];
+  subgraph clusterPostureEmotion {
+    nodePosture [label="Enum Posture\n
+      LotusHandsOnFloor
+      LyingOnSomething
+    "];
+    nodeEmotion [label="Enum Emotion\n
+      Happy
+      Malicious
+      None
+    "];
+  }
 
   nodeSpriteError [label="Enum SpriteError<Display + Debug + Error>\n
     EmptyBoard
@@ -162,10 +192,11 @@ digraph UML {
   nodeSprite [label="Struct Sprite\n
     const MAX_X: usize = 7;
     const MAX_Y: usize = 10;
-    (Vec<(Posture, [[(Emotion, Part); MAX_X]; MAX_Y])>)
-	{}
-    + new(sheet: Vec<(Posture, [[(Emotion, Part); MAX_X]; MAX_Y])>) => Result<Self>
-  "];
+	interval: usize
+    sheet: Vec<(Posture, [[(Emotion, Part); MAX_X]; MAX_Y])>\
+    \n
+    + new(sheet: Vec<(Posture, [[(Emotion, Part); MAX_X]; MAX_Y])>, interval: usize) -> Result<Self>
+  ", width = 8.5];
 
   nodePartError -> nodePart;
   nodePart -> nodeSprite;
@@ -178,6 +209,9 @@ digraph UML {
   nodeSpriteError -> nodeSprite;
   nodeSprite -> nodeManager;
 }
-\end{dot2tex}
+  \end{dot2tex}
+  \caption{Diagramme du module graphique.}
+  \label{UML}
+\end{figure}
 
 \end{document}

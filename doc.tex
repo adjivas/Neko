@@ -17,24 +17,16 @@
 \usepackage{fancyhdr}
 \usepackage{sectsty}
 \usepackage{titlesec}
-
-\titleformat{\chapter}[display]
-  {\Huge}
-  {\filleft\texttt{\chaptertitlename} \Huge\thechapter}
-  {0ex}
-  {\filleft}
-  [\titlerule]
+\usepackage{csquotes}
 
 \usetikzlibrary{automata}
 
 \pagestyle{fancy}
-\fancyhf{}
 
+\fancyhf{}
 \lhead{\leftmark}
 \rhead{\rightmark}
 \rfoot{\thepage}
-
-\chapterfont{\raggedleft}
 
 \setmainfont[
     Path = fonts/sazanami-neko/,
@@ -67,6 +59,13 @@
 \begin{document}
 
 \tableofcontents
+
+\titleformat{\chapter}[display]
+  {\Huge}
+  {\filleft\texttt{\chaptertitlename} \Huge\thechapter}
+  {0ex}
+  {\filleft}
+  [\titlerule]
 
 \chapter{Premiere partie}
 
@@ -210,8 +209,14 @@ digraph UML {
   nodeSprite -> nodeManager;
 }
   \end{dot2tex}
-  \caption{Diagramme du module graphique.}
+  \caption[Caption for LOF]{ Diagramme UML \footnotemark{} du module graphique. }
   \label{UML}
 \end{figure}
+
+\footnotetext{En génie logiciel, le langage de modélisation orienté objet unifié de l'anglais
+	\enquote{Unified Modeling Language}
+		\textendash{ UML }\textendash{ } est la représentation schématique d'un programme par de l'orientée objet}
+
+\subsection{Module Bibliothèque Dynamique}
 
 \end{document}

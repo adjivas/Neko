@@ -1,6 +1,6 @@
 \documentclass{report}
 
-\newcommand{\name}{\textit{Arcana Azurea Neferpitou}}
+\newcommand{\name}{\textit{Arcana Azurea Pitou}}
 \newcommand{\program}{\textit{NEKO}}
 
 \usepackage[french]{babel}
@@ -80,7 +80,7 @@
   \symbol{"E028}\symbol{"E029}\symbol{"E02A}\symbol{"E02B}\symbol{"E02C}\symbol{"E02D}\symbol{"E02E}\symbol{"E02F}\symbol{"E030}\symbol{"E031}\\*
 \end{minipage}
 
-Une nékoe est un persona d'animé japonais avec des traits de chat
+Une nékoe \textendash{ ねこみみ }\textendash{ } est un persona d'animé japonais avec des traits de chat
 \textendash{ mimikko
 	\footnote{ Kemonomimi ou mimikko est un personnage humain d'animé avec des caractéristiques animales tel que la personnalité ou encore le physique
 		\textendash{ 獣耳 }\textendash.
@@ -93,7 +93,7 @@ $\name$ est une programmeuse nékoe de fiction inventé pour assister son utilis
 
 \section{Introduction}
 \thispagestyle{empty}
-$\program$ est un prompt nommé $\name$ et qui apportera les Arts, la Culture et son assistance a qui saura utiliser un shell.
+$\program$ est un prompt nommé $\name$ et qui ce veut apporter les Arts, la Culture et son assistance a qui saura utiliser un shell.
 Humanisée d’émotions et fondée sur l'experience de la chambre chinoise, celle-ci sera donc instruite via des biblioteques.
 
 La liste des options est :
@@ -101,13 +101,15 @@ La liste des options est :
 	\item[\textbf{
 		\textendash p,
 		\textendash\textendash from-part <file.neko.part, ...>}] innitialise une liste de 
-			\textendash{texels}
-				\footnote{ Un texel ou élément de texture est l'unité fondamental de mesure d'une texture. }.
+			\textendash{ texels}
+				\footnote{ Un texel ou élément de texture est l'unité fondamental de mesure d'une texture. }
+					\textendash { }.
 	\item[\textbf{
 		\textendash s,
 		\textendash\textendash from-sprite <file.neko.sprite, ...>}] innitialise une liste de
-			\textendash{sprite}
-				\footnote{ Un sprite est une texture délimitait par une surface. }.
+			\textendash{ sprite}
+				\footnote{ Un sprite est une texture délimitait par une surface. }
+					\textendash { }.
 \end{labeling}
 
 La liste des commandes est :
@@ -128,14 +130,20 @@ La liste des commandes est :
 	}] change l'expression de $\name$ .
 \end{labeling}
 
-\subsection{Module Graphique}
+\newpage
+
+\section{Module}
+
+
+
+\subsection{Graphique}
 
 Ce module est l'interface d'une liste de primitives telles que des texels et des sprites qui ponrront ce combiner en de nouveaux sprites.
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
 \centering
   \begin{dot2tex}[dot,scale=0.35]
-digraph UML {
+digraph graphic {
   d2tstyleonly = true;
   node [shape = "box", width = "4.5", texmode="verbatim", style = "top color=cyan!10,bottom color=cyan!35,draw=cyan!50,rounded corners"];
   graph [shape = "box", texmode="math", style = "top color=blue!10,bottom color=blue!35,draw=blue!50"];
@@ -209,14 +217,40 @@ digraph UML {
   nodeSprite -> nodeManager;
 }
   \end{dot2tex}
-  \caption[Caption for LOF]{ Diagramme UML \footnotemark{} du module graphique. }
-  \label{UML}
+  \caption[Caption for LOF]{ Diagramme UML \footnotemark{} simplifier du module graphique. }
+  \label{graphic}
 \end{figure}
 
 \footnotetext{En génie logiciel, le langage de modélisation orienté objet unifié de l'anglais
 	\enquote{Unified Modeling Language}
 		\textendash{ UML }\textendash{ } est la représentation schématique d'un programme par de l'orientée objet}
 
-\subsection{Module Bibliothèque Dynamique}
+\subsection{Bibliothèque Dynamique}
+
+Ce module est l'interface d'une liste de fonctions externes qui seront executées selon les séquences si-suivantes :
+
+\begin{labeling}{Longer label\quad}
+	\item[\textbf{start} qui est déclenché quand la bibliothèque est montée.]
+\end{labeling}
+
+\begin{figure}[!ht]
+\centering
+  \begin{dot2tex}[dot,scale=0.35]
+digraph graphic {
+  d2tstyleonly = true;
+  node [shape = "box", width = "4.5", texmode="verbatim", style = "top color=cyan!10,bottom color=cyan!35,draw=cyan!50,rounded corners"];
+  graph [shape = "box", texmode="math", style = "top color=blue!10,bottom color=blue!35,draw=blue!50"];
+
+  nodeLibrary [label="Struct Library<Default>\n
+	BinaryHeap<(usize, Vec<Func<extern \"C\" fn()>>)>
+	\n
+	+ fn new(...)
+  "];
+}
+  \end{dot2tex}
+  \caption[Caption for LOF]{ Diagramme UML simplifier du module bibliothèque dynamique. }
+  \label{library}
+\end{figure}
+
 
 \end{document}

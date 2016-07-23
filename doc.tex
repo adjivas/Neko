@@ -107,17 +107,17 @@ La liste des commandes est :
 
 \section{NEKO}
 
-\begin{dot2tex}[dot,scale=0.5]
+\begin{dot2tex}[dot,scale=0.2]
 digraph UML {
-	d2tstyleonly = true;
-	node [shape = "box", width = "6", texmode="math", style = "top color=cyan!10,bottom color=cyan!35,draw=cyan!50,rounded corners"];
+  d2tstyleonly = true;
+  node [shape = "box", width = "8", texmode="math", style = "top color=cyan!10,bottom color=cyan!35,draw=cyan!50,rounded corners"];
 
   nodePartError [label="Enum PartError<Display + Debug + Error>\n
     UnknownPart
     ForbiddenGlyph(char)
-	"];
+  "];
 
-	nodePart [label="Enum Part\n
+  nodePart [label="Enum Part\n
     EyeLeft(char)
     EyeRight(char)
     EarLeft(char)
@@ -125,43 +125,58 @@ digraph UML {
     Nose(char)
     Mouth(char)
     Neck(char)
+	ShoulderLeft(char)
+	ShoulderRight(char)
     {}
     + new(limb: str, glyph: char) => Result<Self>
-	"];
+  "];
 
-  nodeInventoryError [label="Enum InventoryError<Display + Debug + Error>\n
+  nodeManagerError [label="Enum ManagerError<Display + Debug + Error>\n
       Duplicate
       BadPart(PartError)
   "];
 
-  nodeInventory [label="Struct Inventory<Default>\n
-    (HashMap<(Vec<String>, String), Part>)
+  nodeManager [label="Struct Manager<Default>\n
+    part: HashMap<(Posture, Emotion), Part>
+	sprite: HashMap<String, Sprite>
     {}
-    + insert(mut self, limb: str, name: str, glyph: char) => Result<()>
+    + insert_part(mut self, key: (Posture, Emotion), value: Part) => Result<()>
+	+ insert_sprite(mut self, key: String, value: Sprite) => Result<()>
   "];
 
-  nodePosition [label="Struct Position\n
+  nodePosture [label="Enum Posture\n
+    LotusHandsOnFloor
+	LyingOnSomething
+  "];
+
+  nodeEmotion [label="Enum Emotion\n
+    Happy
+	Malicious
+	None
+  "];
+
+  nodeSpriteError [label="Enum SpriteError<Display + Debug + Error>\n
+    EmptyBoard
+  "];
+
+  nodeSprite [label="Struct Sprite\n
     const MAX_X: usize = 7;
     const MAX_Y: usize = 10;
-    ([[Part; MAX_X]; MAX_Y])
-    {}
-    + new(self: [[Part; MAX_X]; MAX_Y]) => Self
+    (Vec<(Posture, [[(Emotion, Part); MAX_X]; MAX_Y])>)
+	{}
+    + new(sheet: Vec<(Posture, [[(Emotion, Part); MAX_X]; MAX_Y])>) => Result<Self>
   "];
 
-  nodeAvatar [label="Struct Avatar\n
-    attribut: Inventory
-    appearance: Hashmap<String, Position>
-    {}
-    + new(inventoryfile: Vec<str>, positionfile: Vec<str>) => Result<Self>
-  "];
-
-  nodePart -> nodeInventory;
-  nodePart -> nodePosition;
-	nodePartError -> nodePart;
-  nodePartError -> nodeInventoryError;
-  nodeInventoryError -> nodeInventory;
-  nodeInventory -> nodeAvatar;
-  nodePosition -> nodeAvatar;
+  nodePartError -> nodePart;
+  nodePart -> nodeSprite;
+  nodePart -> nodeManager;
+  nodeManagerError -> nodeManager;
+  nodePosture -> nodeSprite;
+  nodePosture -> nodeManager;
+  nodeEmotion -> nodeSprite;
+  nodeEmotion -> nodeManager;
+  nodeSpriteError -> nodeSprite;
+  nodeSprite -> nodeManager;
 }
 \end{dot2tex}
 

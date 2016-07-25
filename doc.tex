@@ -18,6 +18,13 @@
 \usepackage{sectsty}
 \usepackage{titlesec}
 \usepackage{csquotes}
+\usepackage{hyperref}
+
+\hypersetup{
+  colorlinks = true,
+  linkcolor = blue,
+  urlcolor = blue,
+}
 
 \usetikzlibrary{automata}
 
@@ -230,8 +237,20 @@ digraph graphic {
 Ce module est l'interface d'une liste de fonctions externes qui seront executées selon les séquences si-suivantes :
 
 \begin{labeling}{Longer label\quad}
-	\item[\textbf{start} qui est déclenché quand la bibliothèque est montée.]
+	\item[\textbf{Start} quand la bibliothèque est montée.]
+	\item[\textbf{Update} pour chaque cycle.]
+	\item[\textbf{MousePress} quand le pointeur est pressé.]
+	\item[\textbf{MousePressNeko} quand le pointeur est pressé sur la nékoe.]
+	\item[\textbf{MouseRelease} quand le pointeur est relaché.]
+	\item[\textbf{MouseReleaseNeko} quand le pointeur est relaché sur la nékoe.]
+	\item[\textbf{KeyDown} quand une touche est pressée.]
+	\item[\textbf{KeyDownRepeat} tant que cette touche est maintenu pressée $\{2\dots{}N\}$.]
+	\item[\textbf{KeyDownInterval} pour chaques intervalles de $\sum_{i=repeat}^{\infty} U_{interval}\times{}i$.]
+	\item[\textbf{KeyUp} quand une touche est relaché.]
+	\item[\textbf{End} quand le processus $\program$ se quitte.]
 \end{labeling}
+
+Le retour d'une fonction peut demander de changer le sprite, le texte ou encore d'executer une commande shell.
 
 \begin{figure}[!ht]
 \centering
@@ -241,10 +260,30 @@ digraph graphic {
   node [shape = "box", width = "4.5", texmode="verbatim", style = "top color=cyan!10,bottom color=cyan!35,draw=cyan!50,rounded corners"];
   graph [shape = "box", texmode="math", style = "top color=blue!10,bottom color=blue!35,draw=blue!50"];
 
-  nodeLibrary [label="Struct Library<Default>\n
-	BinaryHeap<(usize, Vec<Func<extern \"C\" fn()>>)>
+  nodeEvent [label="Struct Event<Default>\n
+    Vec<Func<extern C fn()>>
 	\n
-	+ fn new(...)
+	+ fn insert(Func<extern C fn()>) -> Result<()>
+	+ fn call()
+  ]
+
+
+  nodeCompositer [label="Struct Compositer<Default>\n
+	start: Vec<Func<extern C fn()>>
+	update: Vec<Func<extern C fn()>>
+	mouse_press: Vec<Func<extern C fn()>>
+	mouse_press_neko: Vec<Func<extern C fn()>>
+	mouse_release: Vec<Func<extern C fn()>>
+	mouse_release_neko: Vec<Func<extern C fn()>>
+	key_down: Vec<Func<extern C fn()>>
+	key_down_repeat: Vec<Func<extern C fn()>>
+	key_down_interval: Vec<Func<extern C fn()>>
+	key_up: Vec<Func<extern C fn()>>
+	end: Vec<Func<extern C fn()>>
+	\n
+	+ fn mount(libraryname: &str) -> Result<()>
+	+ fn unmount(libraryname: &str) -> Result<()>
+	event_start(&self) -> Vec<&str>
   "];
 }
   \end{dot2tex}

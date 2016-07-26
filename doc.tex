@@ -96,12 +96,12 @@ Une nékoe \textendash{ ねこみみ }\textendash{ } est un persona d'animé jap
 Le GlyphArt est l'écriture d'une image via des caractères compris dans l'Unicode privé, ce projet démontre ce procédé via
 \href{https://limaconoob.github.io/Image2font}{Image2font}.
 
-$\name$ est une programmeuse nékoe de fiction inventé pour assister son utilisateur.
+$\name$ est une programmeuse nékoe fictive de terminal inventé pour assister son utilisateur.
 
 \section{Introduction}
 \thispagestyle{empty}
 $\program$ est un prompt nommé $\name$ et qui ce veut apporter les Arts, la Culture et son assistance a qui saura utiliser un shell.
-Humanisée d’émotions et fondée sur l'experience de la chambre chinoise, celle-ci sera donc instruite via des biblioteques.
+Humanisée d’émotions et fondée sur l'experience de la \href{https://fr.wikipedia.org/wiki/Chambre_chinoise}{chambre chinoise}, celle-ci sera donc instruite via des biblioteques.
 
 La liste des options est :
 \begin{labeling}{Longer label\quad}
@@ -117,9 +117,13 @@ La liste des options est :
 			\textendash{ sprite}
 				\footnote{ Un sprite est une texture délimitait par une surface. }
 					\textendash { }.
+	\item[\textbf{
+		\textendash l,
+		\textendash\textendash from-library <[file.so, ...]>
+	}] monte dynamiquement une liste de biblioteques depuis un paquet, un dépôt Git ou un fichier.
 \end{labeling}
 
-La liste des commandes est :
+La liste des options du builtin $\program$ est :
 
 \begin{labeling}{Longer label\quad}
 	\item[\textbf{
@@ -127,14 +131,17 @@ La liste des commandes est :
 		\textendash\textendash mount <[<name, link, object>, ...]>
 	}] monte dynamiquement une liste de biblioteques depuis un paquet, un dépôt Git ou un fichier.
 	\item[\textbf{
-		\textendash c,
-		\textendash\textendash config,
-		\textendash\textendash configuration <name>
-	}] initialise le programme avec une nouvelle liste de biblioteques.
+		\textendash g,
+		\textendash\textendash graphic <position> [<attribut>, ...]
+	}] change l'expression de $\name$ .
 	\item[\textbf{
 		\textendash s,
-		\textendash\textendash sprite <position> [<attribut>, ...]
-	}] change l'expression de $\name$ .
+		\textendash\textendash say <[<sentence>, ...]> <delay=1>
+	}] dit une phrase .
+	\item[\textbf{
+		\textendash c,
+		\textendash\textendash call <library> <[<argument>, ...]>
+	}] appelle une biblioteque avec une liste d'arguments .
 \end{labeling}
 
 \newpage
@@ -142,6 +149,92 @@ La liste des commandes est :
 \section{Module}
 
 
+
+\subsection{Bibliothèque Dynamique}
+
+Ce module est l'interface d'une liste de fonctions externes qui seront dynamiquement chargées depuis des bibliothèque partagés.
+
+seront executées selon les séquences si-suivantes :
+
+\begin{labeling}{Longer label\quad}
+	\item[\textbf{Start} quand la bibliothèque est montée.]
+	\item[\textbf{Update} pour chaque cycle.]
+	\item[\textbf{MousePress} quand le pointeur est pressé.]
+	\item[\textbf{MousePressNeko} quand le pointeur est pressé sur la nékoe.]
+	\item[\textbf{MouseRelease} quand le pointeur est relaché.]
+	\item[\textbf{MouseReleaseNeko} quand le pointeur est relaché sur la nékoe.]
+	\item[\textbf{KeyDown} quand une touche est pressée.]
+	\item[\textbf{KeyDownRepeat} tant que cette touche est maintenu pressée $\{2\dots{}N\}$.]
+	\item[\textbf{KeyDownInterval} pour chaques intervalles de $\sum_{i=repeat}^{\infty} U_{interval}\times{}i$.]
+	\item[\textbf{KeyUp} quand une touche est relaché.]
+	\item[\textbf{Talk} quand une bibliothèque va dire un message.]
+	\item[\textbf{Call} pour appeler une bibliothèque avec une liste d'arguments.]
+	\item[\textbf{End} quand le processus $\program$ se quitte.]
+\end{labeling}
+
+Le retour d'une fonction externes peut manipuler les options de builtin tel que \textbf{Graphic}, \textbf{Say} et \textbf{Call}.
+
+\begin{figure}[!ht]
+\centering
+  \begin{dot2tex}[dot,scale=0.35]
+digraph graphic {
+  d2tstyleonly = true;
+  node [shape = "box", width = "6", texmode="verbatim", style = "top color=cyan!10,bottom color=cyan!35,draw=cyan!50,rounded corners"];
+  graph [shape = "box", texmode="math", style = "top color=blue!10,bottom color=blue!35,draw=blue!50"];
+
+  nodeEvent [label="Struct Event\n
+    Func<extern C fn(event: c_int, arg: *const c_char) -> *const c_char>\
+	\n
+	+ fn new(fun: extern C fn(c_int, *const c_char) -> *const c_char) -> Self
+	+ unsafe fn run(&self) -> Vec<&str>
+  "];
+
+  nodeLibraryError [label="Enum LibraryError<Display + Debug + Error>\n
+    EmptyEvent
+	HasOnlyStart
+  "];
+
+  nodeLibrary [label="Struct Library<Drop>\n
+	start: Option<Event>
+	+ update: Option<Event>
+	+ mouse_press: Option<Event>
+	+ mouse_press_neko: Option<Event>
+	+ mouse_release: Option<Event>
+	+ mouse_release_neko: Option<Event>
+	+ key_down: Option<Event>
+	+ key_down_repeat: Option<Event>
+	+ key_down_interval: Option<Event>
+	+ key_up: Option<Event>
+	call: Option<Event>
+	end: Option<Event>\
+    \n
+	+ fn new(libraryname: &str) -> Result<Self>
+  "];
+
+  nodeCompositerError [label="Enum CompositerError<Display + Debug + Error>\n
+    badMount(LibraryError)
+    UmountNotFound
+  "];
+
+  nodeCompositer [label="Struct Compositer<Iterator, Default>\n
+    (BinaryHeap<(usize, (Library, String))>)\
+	\n
+	+ fn mount(libraryname: &str, priority: usize) -> Result<()>
+	+ fn unmount(libraryname: &str) -> Result<()>
+	+ fn call(libraryname: &str, arguments: Vec<&str>) -> Result<()>
+  "];
+
+  nodeEvent -> nodeLibrary
+  nodeLibraryError -> nodeLibrary
+  nodeLibrary -> nodeCompositer
+  nodeCompositerError -> nodeCompositer
+}
+  \end{dot2tex}
+  \caption[Caption for LOF]{ Diagramme UML simplifier du module bibliothèque dynamique. }
+  \label{library}
+\end{figure}
+
+\newpage
 
 \subsection{Graphique}
 
@@ -232,64 +325,26 @@ digraph graphic {
 	\enquote{Unified Modeling Language}
 		\textendash{ UML }\textendash{ } est la représentation schématique d'un programme par de l'orientée objet}
 
-\subsection{Bibliothèque Dynamique}
+\chapter{Deuxieme partie}
 
-Ce module est l'interface d'une liste de fonctions externes qui seront executées selon les séquences si-suivantes :
+\section{Bibliothèque}
+
+Ce chapitre énumére une liste exhaustive de bibliothèques dynamiques de langage Libre qui seront programmé par la team \enquote{la confrérie des ténèbres} pour apporter un départ a ce qui pourrait connaitre une evolution communautaire dans les mois à venir.
 
 \begin{labeling}{Longer label\quad}
-	\item[\textbf{Start} quand la bibliothèque est montée.]
-	\item[\textbf{Update} pour chaque cycle.]
-	\item[\textbf{MousePress} quand le pointeur est pressé.]
-	\item[\textbf{MousePressNeko} quand le pointeur est pressé sur la nékoe.]
-	\item[\textbf{MouseRelease} quand le pointeur est relaché.]
-	\item[\textbf{MouseReleaseNeko} quand le pointeur est relaché sur la nékoe.]
-	\item[\textbf{KeyDown} quand une touche est pressée.]
-	\item[\textbf{KeyDownRepeat} tant que cette touche est maintenu pressée $\{2\dots{}N\}$.]
-	\item[\textbf{KeyDownInterval} pour chaques intervalles de $\sum_{i=repeat}^{\infty} U_{interval}\times{}i$.]
-	\item[\textbf{KeyUp} quand une touche est relaché.]
-	\item[\textbf{End} quand le processus $\program$ se quitte.]
+    \item[\textbf{HelpGIT}] Si le programmeur utilise plus d'une fois sans succès l'option \textit{push}, la nékoe proposera son aide puis informera des instructions shell a saisir.
+	\item[\textbf{TravisGIT}] Quand le programmeur publie une nouvelle version de ça branche et qu'un \textit{.travis} est définie à la racine du projet, alors la nékoe informera son programmeur du resultat.
+    \item[\textbf{MustSleep}] Quand le programmeur dépasse dix heures d'activités, la nékoe aura des signes de fatigue et informera une seul fois des conséquences du manque de sommeil sur la productivité.
+    \item[\textbf{LockTerminal}] Après N temps d'inactivitée, la nékoe verrouille le terminal et vie ça vie.
+	\item[\textbf{StackOverflow}] Si un programme affiche une erreur, la nékoe essaie une recherche sur stackoverflow est propose d'informer son programmeur si elle a trouvée une solution.
+	\item[\textbf{ProgramDex}] Quand le programmeur entre dans un projet, la nékoe fourni une description.
+	\item[\textbf{Email}] Quand le programmeur reçoit un courriel, la nékoe proposera de la lire.
+	\item[\textbf{ManDescription}] Lorsque le programmeur saisi la commande /textit{man}, la nékoe avant la validation de ce dernier l'informe de la description de la commande.
+	\item[\textbf{Hungry}] Si le programmeur clique sur la nékoe, celle-si prend une expression affamé.
+	\item[\textbf{NotLeaveMe}] Pendant que le programmeur saisi la commande /textit{exit}, la nékoe essaie toute sorte de stratagème pour qu'elle ne soit pas abandonnée.
+	\item[\textbf{Overload}] La nékoe aura chaud en fonction de l'usage du CPU.
+	\item[\textbf{Hello}] La nékoe salura son programmeur au lancement du terminal.
+	\item[\textbf{Wait}] Durant une compilation, la nékoe distraira son programmeur avec des histoires.
 \end{labeling}
-
-Le retour d'une fonction peut demander de changer le sprite, le texte ou encore d'executer une commande shell.
-
-\begin{figure}[!ht]
-\centering
-  \begin{dot2tex}[dot,scale=0.35]
-digraph graphic {
-  d2tstyleonly = true;
-  node [shape = "box", width = "4.5", texmode="verbatim", style = "top color=cyan!10,bottom color=cyan!35,draw=cyan!50,rounded corners"];
-  graph [shape = "box", texmode="math", style = "top color=blue!10,bottom color=blue!35,draw=blue!50"];
-
-  nodeEvent [label="Struct Event<Default>\n
-    Vec<Func<extern C fn()>>
-	\n
-	+ fn insert(Func<extern C fn()>) -> Result<()>
-	+ fn call()
-  ]
-
-
-  nodeCompositer [label="Struct Compositer<Default>\n
-	start: Vec<Func<extern C fn()>>
-	update: Vec<Func<extern C fn()>>
-	mouse_press: Vec<Func<extern C fn()>>
-	mouse_press_neko: Vec<Func<extern C fn()>>
-	mouse_release: Vec<Func<extern C fn()>>
-	mouse_release_neko: Vec<Func<extern C fn()>>
-	key_down: Vec<Func<extern C fn()>>
-	key_down_repeat: Vec<Func<extern C fn()>>
-	key_down_interval: Vec<Func<extern C fn()>>
-	key_up: Vec<Func<extern C fn()>>
-	end: Vec<Func<extern C fn()>>
-	\n
-	+ fn mount(libraryname: &str) -> Result<()>
-	+ fn unmount(libraryname: &str) -> Result<()>
-	event_start(&self) -> Vec<&str>
-  "];
-}
-  \end{dot2tex}
-  \caption[Caption for LOF]{ Diagramme UML simplifier du module bibliothèque dynamique. }
-  \label{library}
-\end{figure}
-
 
 \end{document}

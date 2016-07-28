@@ -11,13 +11,9 @@ addons:
     - cmake
     - gcc
     - binutils-dev
-before_script:
-- |
-  pip install 'travis-cargo<0.2' --user &&
-  export PATH=$HOME/.local/bin:$PATH &&
-  sudo apt-get update
 script:
-- cargo build && cargo test && cargo doc
+  - cargo build
+  - cargo test
 after_success: |
   wget https://github.com/SimonKagstrom/kcov/archive/master.tar.gz &&
   tar xzf master.tar.gz &&

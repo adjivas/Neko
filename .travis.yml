@@ -1,34 +1,20 @@
-sudo: true
 language: rust
-rust:
-- nightly
-addons:
-  apt:
-    packages:
-    - libcurl4-openssl-dev
-    - libelf-dev
-    - libdw-dev
-    - cmake
-    - gcc
-    - binutils-dev
+matrix:
+  include:
+  - rust: nightly
+  - rust: beta
+  - rust: stable
+
+# load travis-cargo
+before_script:
+  - |
+      pip install 'travis-cargo<0.2' --user &&
+      export PATH=$HOME/.local/bin:$PATH
+
 script:
-  - cargo build
-  - cargo test
-after_success: |
-  wget https://github.com/SimonKagstrom/kcov/archive/master.tar.gz &&
-  tar xzf master.tar.gz &&
-  cd kcov-master &&
-  mkdir build &&
-  cd build &&
-  cmake .. &&
-  make &&
-  sudo make install &&
-  cd ../.. &&
-  rm -rf kcov-master &&
-  for file in target/debug/neko_rs-*; do mkdir -p "target/cov/$(basename $file)"; kcov --exclude-pattern=/.cargo,/usr/lib --verify "target/cov/$(basename $file)" "$file"; done &&
-  bash <(curl -s https://codecov.io/bash) &&
-  echo "Uploaded code coverage"
-env:
-  global:
-  - TRAVIS_CARGO_NIGHTLY_FEATURE=""
-  - GH_TOKEN="ZlvUOXi49+w16beco/SfiEpYO/w9f1uWjUwOAgWzgyNik6czkrWnsCLmgnW0/yLBC8H8hMY14pc7As/7DfMTmNtsiKrBd4M14gE4+sH7PVkb2qMHGNy2EPQ70MhrAzpNXA1N353HthNLJOZK3gPcyFgv+T7ZeWIR/sx9ald4sGidrD/jFKZ17tnURM345wxj6PZNH0RgE4apllVK+jepsyjgs47U0TCul92C9ArPRi/5yLY/xfif2ry9QbMIk76eqO2cEU7qWxqByD/M6HNGPfLJmngw6upX87+MQpMd6x9dV/HnPLnnVpCIA/RPSYv7k/ENFkouwH5SDHHjqctv0foJvnx2NBBuMzHiqgwoAQdgBzoacXKKWkFNVZyWT2B5hLJy6gNK/jYtWEiuC4d10u2PeTSoNNBiKFh++Dbpfwcq3FmkKqLnuEXuWw2B3eaST5slH5YoZtRCgiWe2qUV5TutFiY2whuaxpl1KPf9jhspzP0yHXeHs8aBVO3zon93bpGnAocMadeumZbHXO6QW28eppk4XlA/F1nCcnJn+Mqo15TudbNsmBlnTt3pIUGi9n7kLL6ByIhWh3qpkWSV6FjZYc3jpVYxuDxropIknD75ZywQakpLX9Dvs11twoVg/pfEtSfc1+cAy8dJrplye3kJ+jgkBu6a+799aeekRUg="
+  - |
+      cargo build &&
+      cargo test
+
+after_success:
+  - travis-cargo coveralls --no-sudo --verify

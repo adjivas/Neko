@@ -13,5 +13,11 @@ license = "GPL-3.0"
 name = "neko"
 doc = false
 
+[dependencies.clippy]
+optional = true
+version = "*"
+
 [features]
+default = []
 unstable = [] # for travis-cargo
+dev = ["clippy"]

@@ -3,10 +3,12 @@ language: rust
 addons:
   apt:
     packages:
-    - libcurl4-openssl-dev
-    - libelf-dev
-    - libdw-dev
-    - binutils-dev
+      - libcurl4-openssl-dev
+      - libelf-dev
+      - libdw-dev
+      - cmake
+      - gcc
+      - binutils-dev
 rust:
   - nightly
   - stable
@@ -16,26 +18,22 @@ os:
 matrix:
   allow_failures:
     - rust: nightly
-before_script:
-  - |
-    python --version &&
-    pip --version &&
-    pip install 'travis-cargo<0.2' --user &&
-    export PATH=$HOME/.local/bin:$PATH &&
-    export PATH=$HOME/Library/Python/2.7/bin:$PATH
 script:
-- |
-  travis-cargo build &&
-  travis-cargo test &&
-  travis-cargo bench &&
-  cargo rustdoc -- --no-defaults --passes "collapse-docs" --passes "unindent-comments"
-after_success:
-- travis-cargo --only stable coveralls --no-sudo
-- travis-cargo coveralls --no-sudo --verify
-env:
-  matrix:
-  - TRAVIS_CARGO_NIGHTLY_FEATURE=dev
-  - FEATURES=travis
-  - FEATURES=lint
-  global:
-    secure: yU82P/88YSV5aWAVFR0e4o2O5PyQRwwqcJZ+5TY263W4+B/LRhFZSd0XNfzVApAyE+/b43g+KIkuKodqCkwTbOSz5ATRjCU9oYQegBlDQE/5gZwaJRjHUlUqiSaC016NHrv4+4Fv9J3LFdSMmFe06GVIJev6/S1GfOSDLqEPj7b2MGpSi0mNC3sfvoGOyomTNZY5nQQr8D9zTxu1Nl8s6t2L/5fH6cj+UiDbDzEu0L9GNLXffKCp08Nuu9Zt8yLMsN+oQCTiyf/eyVq6THYg/WrDoAZWwtNXViHHt9NeCuq45RVrprvlc4WXOfkvZgvMgEDqN5Ptf/XpudO7YCo41AjSSf8MHOKWultKXNB6RvBZy22p4oZYmijVY22SUMjd9FRsC/90ORR0DBjReh6IeQcYv9yKJmPn4snbVzChwwZPrBF4HrX85U5ufySz8O5TyTXHSMkSDx4tRIpxz4eWqfHiH1kINwh080E23jXZBKkHP59lTOqhIQZJUpHREH4f9j6Q8nJnDApfSH1n/TLGdFQIHPpKL5oi2Y5Pg2KiLROb3mGcVnFH+F5q5lF3Dx8CqfzUfftA34JHmTS6NzB6P9ezte/oP9ftMtIQAjH2rJoU+9kf8ti0KbZ2GEMVpGrscn+cknhLH7UZbd1Lkgn4fHNdgrbNvUwR1hoPn8PusvU=
+  - |
+  cargo build &&
+  cargo test &&
+  cargo bench
+after_success: |
+  wget https://github.com/SimonKagstrom/kcov/archive/master.tar.gz &&
+  tar xzf master.tar.gz &&
+  cd kcov-master &&
+  mkdir build &&
+  cd build &&
+  cmake .. &&
+  make &&
+  sudo make install &&
+  cd ../.. &&
+  rm -rf kcov-master &&
+  kcov --exclude-pattern=/.cargo,/usr/lib --verify target/cov target/debug/<executable name>-* &&
+  bash <(curl -s https://codecov.io/bash) &&
+  echo "Uploaded code coverage"

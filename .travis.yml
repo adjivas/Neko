@@ -1,41 +1,43 @@
 sudo: true
 language: rust
+rust:
+- nightly
 addons:
   apt:
     packages:
-      - libcurl4-openssl-dev
-      - libelf-dev
-      - libdw-dev
-      - cmake
-      - gcc
-      - binutils-dev
-rust:
-  - nightly
-  - stable
-os:
-  - linux
-  - osx
-matrix:
-  allow_failures:
-    - rust: nightly
+    - libcurl4-openssl-dev
+    - libelf-dev
+    - libdw-dev
+    - cmake
+    - gcc
+    - binutils-dev
+before_install:
+- openssl aes-256-cbc -K $encrypted_b63566236b41_key -iv $encrypted_b63566236b41_iv
+  -in auth_token.enc -out tests/auth_token -d
+before_script:
+- |
+  pip install 'travis-cargo<0.2' --user &&
+  export PATH=$HOME/.local/bin:$PATH &&
+  sudo apt-get update
 script:
-  - |
-    cargo build &&
-    cargo test &&
-    cargo bench
-
-after_success:
-  - |
-    wget https://github.com/SimonKagstrom/kcov/archive/master.tar.gz &&
-    tar xzf master.tar.gz &&
-    cd kcov-master &&
-    mkdir build &&
-    cd build &&
-    cmake .. &&
-    make &&
-    sudo make install &&
-    cd ../.. &&
-    rm -rf kcov-master &&
-    kcov --exclude-pattern=/.cargo,/usr/lib --verify target/cov target/debug/<executable name>-* &&
-    bash <(curl -s https://codecov.io/bash) &&
-    echo "Uploaded code coverage"
+- travis-cargo build && travis-cargo test && travis-cargo doc
+after_success: |
+  travis-cargo doc-upload
+  wget https://github.com/SimonKagstrom/kcov/archive/master.tar.gz &&
+  tar xzf master.tar.gz &&
+  cd kcov-master &&
+  mkdir build &&
+  cd build &&
+  cmake .. &&
+  make &&
+  sudo make install &&
+  cd ../.. &&
+  rm -rf kcov-master &&
+  for file in target/debug/github_rs-*; do mkdir -p "target/cov/$(basename $file)"; kcov --exclude-pattern=/.cargo,/usr/lib --verify "target/cov/$(basename $file)" "$file"; done &&
+  for file in target/debug/harness-*; do mkdir -p "target/cov/$(basename $file)"; kcov --exclude-pattern=/.cargo,/usr/lib --verify "target/cov/$(basename $file)" "$file"; done &&
+  bash <(curl -s https://codecov.io/bash) &&
+  echo "Uploaded code coverage"
+env:
+  global:
+  - TRAVIS_CARGO_NIGHTLY_FEATURE=""
+  - secure: yU82P/88YSV5aWAVFR0e4o2O5PyQRwwqcJZ+5TY263W4+B/LRhFZSd0XNfzVApAyE+/b43g+KIkuKodqCkwTbOSz5ATRjCU9oYQegBlDQE/5gZwaJRjHUlUqiSaC016NHrv4+4Fv9J3LFdSMmFe06GVIJev6/S1GfOSDLqEPj7b2MGpSi0mNC3sfvoGOyomTNZY5nQQr8D9zTxu1Nl8s6t2L/5fH6cj+UiDbDzEu0L9GNLXffKCp08Nuu9Zt8yLMsN+oQCTiyf/eyVq6THYg/WrDoAZWwtNXViHHt9NeCuq45RVrprvlc4WXOfkvZgvMgEDqN5Ptf/XpudO7YCo41AjSSf8MHOKWultKXNB6RvBZy22p4oZYmijVY22SUMjd9FRsC/90ORR0DBjReh6IeQcYv9yKJmPn4snbVzChwwZPrBF4HrX85U5ufySz8O5TyTXHSMkSDx4tRIpxz4eWqfHiH1kINwh080E23jXZBKkHP59lTOqhIQZJUpHREH4f9j6Q8nJnDApfSH1n/TLGdFQIHPpKL5oi2Y5Pg2KiLROb3mGcVnFH+F5q5lF3Dx8CqfzUfftA34JHmTS6NzB6P9ezte/oP9ftMtIQAjH2rJoU+9kf8ti0KbZ2GEMVpGrscn+cknhLH7UZbd1Lkgn4fHNdgrbNvUwR1hoPn8PusvU=

@@ -5,5 +5,9 @@
 // This file may not be copied, modified, or distributed
 // except according to those terms.
 
+#![cfg_attr(feature="clippy", feature(plugin))]
+
+#![cfg_attr(feature="clippy", plugin(clippy))]
+
 fn main() {
 }

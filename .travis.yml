@@ -1,33 +1,27 @@
-language: rust
-rust: nightly
 sudo: false
+language: rust
+rust: 
+  - nightly
+  - stable
+  - beta
 
+# Only while clippy is failing
+matrix:
+  allow_failures:
+    - rust: nightly
 env:
   global:
-      - RUST_BACKTRACE=1
-      - TRAVIS_CARGO_NIGHTLY_FEATURE=""
+    - PATH="$PATH:$TRAVIS_BUILD_DIR/target/debug"
+cache:
+  directories:
+    - $TRAVIS_BUILD_DIR/target
+    - $HOME/.cargo
 
-# `sudo`-less apt install.
-addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-    packages:
-        # Needed for `travis-cargo coveralls --no-sudo`
-      - libcurl4-openssl-dev
-      - libelf-dev
-      - libdw-dev
-
-# Load `travis-cargo`
-before_script:
-    - pip install 'travis-cargo' --user
-    - export PATH=$HOME/.local/bin:$PATH
+os:
+  - linux
+  - osx
 
 script:
-    - travis-cargo -q build
-    - travis-cargo -q test
-
-# Generate coverage
-after_success:
-    - cd $TRAVIS_BUILD_DIR
-    - travis-cargo -q coveralls --no-sudo
+  - cargo build --verbose --features lints
+  - cargo test
+  - cargo clippy -- -Wclippy_pedantic

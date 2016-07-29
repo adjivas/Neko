@@ -16,8 +16,10 @@
 *.rs.swp
 *.swp
 
-# Cargo
-*.lock
+# Temp files
+.*~
 
-# Fmt
+# Backup files
+*.bak
 *.bk
+*.orig

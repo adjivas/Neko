@@ -1,7 +1,12 @@
 [package]
 name = "neko"
 version = "0.0.1"
-authors = ["adjivas <adjivas@users.noreply.github.com>", "brezaire <brezaire@users.noreply.github.com>", "LinFeiLong <LinFeiLong@users.noreply.github.com>", "limaconoob <limaconoob@users.noreply.github.com>"]
+authors = [
+	"adjivas <adjivas@users.noreply.github.com>",
+	"brezaire <voncay@users.noreply.github.com>",
+	"flime <LinFeiLong@users.noreply.github.com>",
+	"jpepin <limaconoob@users.noreply.github.com>"
+]
 description = ""
 documentation = "https://adjivas.github.io/Neko/neko"
 repository = "https://github.com/adjivas/Neko.git"
@@ -13,11 +18,18 @@ license = "GPL-3.0"
 name = "neko"
 doc = false
 
+[lib]
+name = "neko"
+plugin = true
+
 [dependencies.clippy]
+clippy = "*"
 optional = true
-version = "*"
 
 [features]
-default = []
-unstable = [] # for travis-cargo
-dev = ["clippy"]
+default     = []
+lints       = ["clippy", "nightly"]
+nightly     = [] # for building with nightly and unstable features
+unstable    = [] # for building with unstable features on stable Rust
+debug       = [] # for building with debug messages
+travis      = ["lints", "nightly"] # for building with travis-cargo

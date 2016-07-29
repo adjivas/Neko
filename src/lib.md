@@ -1,3 +1,7 @@
+##### TODO
+Add more modules.
+
+```rust
 // @adjivas - github.com/adjivas. See the LICENSE
 // file at the top-level directory of this distribution and at
 // https://github.com/adjivas/Neko
@@ -27,3 +31,4 @@
 /// The module `part` describes a texel from the neko sprite.
 
 pub mod part;
+```

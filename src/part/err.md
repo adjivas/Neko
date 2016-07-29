@@ -1,10 +1,4 @@
-// @adjivas - github.com/adjivas. See the LICENSE
-// file at the top-level directory of this distribution and at
-// https://github.com/adjivas/Neko
-//
-// This file may not be copied, modified, or distributed
-// except according to those terms.
-
+```rust
 use std::fmt;
 use std::error::Error;
 
@@ -48,3 +42,4 @@ impl Error for PartError {
         None
     }
 }
+```

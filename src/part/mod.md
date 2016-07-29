@@ -1,3 +1,7 @@
+#### TODO
+Limits the glyph from `new` constructor between private unicode.
+
+```rust
 // @adjivas - github.com/adjivas. See the LICENSE
 // file at the top-level directory of this distribution and at
 // https://github.com/adjivas/Neko
@@ -34,3 +38,4 @@ impl Part {
         }
     }
 }
+```

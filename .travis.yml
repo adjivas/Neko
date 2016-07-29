@@ -24,4 +24,4 @@ os:
 script:
   - cargo build --verbose --features lints
   - cargo test
-  - cargo clippy -- -Wclippy_pedantic
+  - cargo bench

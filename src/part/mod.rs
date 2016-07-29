@@ -9,6 +9,10 @@ mod err;
 
 pub use self::err::{PartError, Result};
 
+/// The enum `Part` is the list of texel type from a neko body.
+
+#[allow(missing_docs)]
+#[derive(Clone, Copy, Debug)]
 pub enum Part {
     EyeLeft(char),
     EyeRight(char),
@@ -20,6 +24,9 @@ pub enum Part {
 }
 
 impl Part {
+
+    /// The constructor function `new` makes a texel part.
+
     pub fn new(limb: &str, glyph: char) -> Result<Self> {
         match limb {
             "EyeLeft" => Ok(Part::EyeLeft(glyph)),
@@ -27,4 +34,3 @@ impl Part {
         }
     }
 }
-

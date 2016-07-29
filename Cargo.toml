@@ -1,35 +1,35 @@
 [package]
-name = "neko"
-version = "0.0.1"
-authors = [
+name          = "neko"
+version       = "0.0.1"
+authors       = [
 	"adjivas <adjivas@users.noreply.github.com>",
 	"brezaire <voncay@users.noreply.github.com>",
 	"flime <LinFeiLong@users.noreply.github.com>",
 	"jpepin <limaconoob@users.noreply.github.com>"
 ]
-description = ""
+description   = ""
 documentation = "https://adjivas.github.io/Neko/neko"
-repository = "https://github.com/adjivas/Neko.git"
-readme = "README.md"
-keywords = ["neko", "glyphArt"]
-license = "GPL-3.0"
+repository    = "https://github.com/adjivas/Neko.git"
+readme        = "README.md"
+keywords      = ["neko", "glyphArt"]
+license       = "GPL-3.0"
 
 [[bin]]
-name = "neko"
-doc = false
+name          = "neko"
+doc           = false
 
 [lib]
-name = "neko"
-plugin = true
-
-[dependencies.clippy]
-clippy = "*"
-optional = true
+name          = "neko"
+plugin        = true
 
 [features]
-default     = []
-lints       = ["clippy", "nightly"]
-nightly     = [] # for building with nightly and unstable features
-unstable    = [] # for building with unstable features on stable Rust
-debug       = [] # for building with debug messages
-travis      = ["lints", "nightly"] # for building with travis-cargo
+default       = []
+lints         = ["clippy", "nightly"]
+nightly       = [] # for building with nightly and unstable features
+unstable      = [] # for building with unstable features on stable Rust
+debug         = [] # for building with debug messages
+travis        = ["lints", "nightly"] # for building with travis-cargo
+
+[dependencies.clippy]
+version       = "*"
+optional      = true

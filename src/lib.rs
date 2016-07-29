@@ -5,6 +5,10 @@
 // This file may not be copied, modified, or distributed
 // except according to those terms.
 
+//! # neko
+//!
+//! This library contains the module `graphic` and `dy`.
+
 #![crate_type= "lib"]
 #![cfg_attr(feature = "nightly", feature(plugin))]
 #![cfg_attr(feature = "lints", plugin(clippy))]
@@ -17,6 +21,9 @@
         trivial_casts,
         trivial_numeric_casts,
         unused_import_braces,
-        unused_qualifications)]
+        unused_qualifications
+)]
 
-mod body;
+/// The module `part` describes a texel from the neko sprite.
+
+pub mod part;

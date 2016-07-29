@@ -5,9 +5,10 @@
 // This file may not be copied, modified, or distributed
 // except according to those terms.
 
-#![cfg_attr(feature="clippy", feature(plugin))]
+extern crate neko;
 
-#![cfg_attr(feature="clippy", plugin(clippy))]
+use neko::part::{Part, PartError};
 
 fn main() {
+  let _: Result<Part, PartError> = Part::new("EyeLeft", '0');
 }

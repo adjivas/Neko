@@ -1,0 +1,41 @@
+[package]
+name          = "neko"
+version       = "0.0.1"
+authors       = [
+	"adjivas <adjivas@users.noreply.github.com>",
+	"brezaire <voncay@users.noreply.github.com>",
+	"flime <LinFeiLong@users.noreply.github.com>",
+	"jpepin <limaconoob@users.noreply.github.com>"
+]
+build         = "tango-build.rs"
+description   = ""
+documentation = "https://adjivas.github.io/Neko/neko"
+repository    = "https://github.com/adjivas/Neko.git"
+readme        = "README.md"
+keywords      = ["neko", "glyphArt"]
+license       = "GPL-3.0"
+
+[[bin]]
+name          = "neko"
+path          = "src/main.rs"
+doc           = false
+
+[lib]
+name          = "neko"
+path          = "src/lib.rs"
+plugin        = true
+
+[features]
+default       = []
+lints         = ["clippy", "nightly"]
+nightly       = [] # for building with nightly and unstable features
+unstable      = [] # for building with unstable features on stable Rust
+debug         = [] # for building with debug messages
+travis        = ["lints", "nightly"] # for building with travis-cargo
+
+[build-dependencies.tango]
+git = "https://github.com/pnkfelix/tango"
+
+[dependencies.clippy]
+version       = "*"
+optional      = true

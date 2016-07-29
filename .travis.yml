@@ -22,6 +22,6 @@ os:
   - osx
 
 script:
-  - cargo build --verbose --features lints
+  - cargo build --verbose
   - cargo test
   - cargo bench

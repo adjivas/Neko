@@ -89,40 +89,40 @@
 
 Une nékoe \textendash{ ねこみみ }\textendash{ } est un persona d'animé japonais avec des traits de chat
 \textendash{ mimikko
-	\footnote{ Kemonomimi ou mimikko est un personnage humain d'animé avec des caractéristiques animales tel que la personnalité ou encore le physique
+	\footnote{ Kemonomimi ou mimikko est un personnage humain d'animé avec les caractéristiques d'un animal telles que sa personnalité ou encore son physique
 		\textendash{ 獣耳 }\textendash.
 			}} \textendash.
 
 Le GlyphArt est l'écriture d'une image via des caractères compris dans l'Unicode privé, ce projet démontre ce procédé via
 \href{https://limaconoob.github.io/Image2font}{Image2font}.
 
-$\name$ est une programmeuse nékoe fictive de terminal inventé pour assister son utilisateur.
+$\name$ est une programmeuse nékoe fictive de terminal inventée pour assister son utilisateur.
 
 \section{Introduction}
 \thispagestyle{empty}
-$\program$ est un prompt nommé $\name$ et qui ce veut apporter les Arts, la Culture et son assistance a qui saura utiliser un shell.
-Humanisée d’émotions et fondée sur l'experience de la \href{https://fr.wikipedia.org/wiki/Chambre_chinoise}{chambre chinoise}, celle-ci sera donc instruite via des biblioteques.
+$\program$ est un prompt nommé $\name$ et qui a pour but d'apporter les Arts, la Culture et une assistance à qui saura utiliser un shell.
+Humanisée d’émotions et fondée sur l'expérience de la \href{https://fr.wikipedia.org/wiki/Chambre_chinoise}{chambre chinoise}, celle-ci sera donc instruite via des bibliotèques.
 
-Ce prompt lit sur l'entrée standard, modifie l'interface puis imprime une sortie modifiée selon les biblioteques fournites qui sera interprete' par le shell parent.
+Ce prompt lit sur l'entrée standard, modifie l'interface puis imprime une sortie modifiée selon les bibliotèques fournies qui sera interpretée par le shell parent.
 
 La liste des options est :
 \begin{labeling}{Longer label\quad}
 	\item[\textbf{
 		\textendash p,
-		\textendash\textendash from-part <file.neko.part, ...>}] innitialise une liste de 
+		\textendash\textendash from-part <file.neko.part, ...>}] initialise une liste de 
 			\textendash{ texels}
-				\footnote{ Un texel ou élément de texture est l'unité fondamental de mesure d'une texture. }
+				\footnote{ Un texel ou élément de texture est l'unité fondamentale de mesure d'une texture. }
 					\textendash { }.
 	\item[\textbf{
 		\textendash s,
-		\textendash\textendash from-sprite <file.neko.sprite, ...>}] innitialise une liste de
+		\textendash\textendash from-sprite <file.neko.sprite, ...>}] initialise une liste de
 			\textendash{ sprite}
-				\footnote{ Un sprite est une texture délimitait par une surface. }
+				\footnote{ Un sprite est une texture délimitée par une surface. }
 					\textendash { }.
 	\item[\textbf{
 		\textendash l,
 		\textendash\textendash from-library <[file.so, ...]>
-	}] monte dynamiquement une liste de biblioteques depuis un paquet, un dépôt Git ou un fichier.
+	}] monte dynamiquement une liste de bibliotèques depuis un paquet, un dépôt Git ou un fichier.
 \end{labeling}
 
 La liste des options du builtin $\program$ est :
@@ -131,7 +131,7 @@ La liste des options du builtin $\program$ est :
 	\item[\textbf{
 		\textendash m,
 		\textendash\textendash mount <[<name, link, object>, ...]>
-	}] monte dynamiquement une liste de biblioteques depuis un paquet, un dépôt Git ou un fichier.
+	}] monte dynamiquement une liste de bibliotèques depuis un paquet, un dépôt Git ou un fichier.
 	\item[\textbf{
 		\textendash g,
 		\textendash\textendash graphic <position> [<attribut>, ...]
@@ -143,7 +143,7 @@ La liste des options du builtin $\program$ est :
 	\item[\textbf{
 		\textendash c,
 		\textendash\textendash call <library> <[<argument>, ...]>
-	}] appelle une biblioteque avec une liste d'arguments .
+	}] appelle une bibliotèque avec une liste d'arguments .
 \end{labeling}
 
 \newpage
@@ -152,27 +152,27 @@ La liste des options du builtin $\program$ est :
 
 \subsection{Bibliothèque Dynamique}
 
-Ce module est l'interface d'une liste de fonctions externes qui seront dynamiquement chargées depuis des bibliothèque partagés.
+Ce module est l'interface d'une liste de fonctions externes qui seront dynamiquement chargées depuis des bibliothèques partagées.
 
-seront executées selon les séquences si-suivantes :
+Seront executées les séquences suivantes :
 
 \begin{labeling}{Longer label\quad}
 	\item[\textbf{Start} quand la bibliothèque est montée.]
 	\item[\textbf{Update} pour chaque cycle.]
-	\item[\textbf{MousePress} quand le pointeur est pressé.]
+	\item[\textbf{MousePress} quand le pointeur est pressé dans le terminal.]
 	\item[\textbf{MousePressNeko} quand le pointeur est pressé sur la nékoe.]
-	\item[\textbf{MouseRelease} quand le pointeur est relaché.]
-	\item[\textbf{MouseReleaseNeko} quand le pointeur est relaché sur la nékoe.]
-	\item[\textbf{KeyDown} quand une touche est pressée.]
-	\item[\textbf{KeyDownRepeat} tant que cette touche est maintenu pressée $\{2\dots{}N\}$.]
-	\item[\textbf{KeyDownInterval} pour chaques intervalles de $\sum_{i=repeat}^{\infty} U_{interval}\times{}i$.]
-	\item[\textbf{KeyUp} quand une touche est relaché.]
+	\item[\textbf{MouseRelease} quand le pointeur est relâché dans le terminal.]
+	\item[\textbf{MouseReleaseNeko} quand le pointeur est relâché sur la nékoe.]
+	\item[\textbf{KeyDown} quand une touche est enfoncée.]
+	\item[\textbf{KeyDownRepeat} quand une touche est maintenue enfoncée $\{2\dots{}N\}$.]
+	\item[\textbf{KeyDownInterval} durant \textit{KeyDownRepeat}, donne l'intervalle : $\sum_{i=repeat}^{\infty} U_{interval}\times{}i$.]
+	\item[\textbf{KeyUp} quand une touche est relâchée.]
 	\item[\textbf{Talk} quand une bibliothèque va dire un message.]
 	\item[\textbf{Call} pour appeler une bibliothèque avec une liste d'arguments.]
-	\item[\textbf{End} quand le processus $\program$ se quitte.]
+	\item[\textbf{End} quand le processus $\program$ se termine.]
 \end{labeling}
 
-Le retour d'une fonction externes peut manipuler les options de builtin tel que \textbf{Graphic}, \textbf{Say} et \textbf{Call}.
+Le retour d'une fonction externe peut manipuler les options de builtins tels que \textbf{Graphic}, \textbf{Say} et \textbf{Call}.
 
 \begin{figure}[!ht]
 \centering
@@ -230,7 +230,7 @@ digraph graphic {
   nodeCompositerError -> nodeCompositer
 }
   \end{dot2tex}
-  \caption[Caption for LOF]{ Diagramme UML simplifier du module bibliothèque dynamique. }
+  \caption[Caption for LOF]{ Diagramme UML simplifié du module bibliothèque dynamique. }
   \label{library}
 \end{figure}
 
@@ -238,7 +238,7 @@ digraph graphic {
 
 \subsection{Graphique}
 
-Ce module est l'interface d'une liste de primitives telles que des texels et des sprites qui ponrront ce combiner en de nouveaux sprites.
+Ce module est l'interface d'une liste de primitives telles que des texels et des sprites qui pourront se combiner en nouveaux sprites.
 
 \begin{figure}[!ht]
 \centering
@@ -317,36 +317,36 @@ digraph graphic {
   nodeSprite -> nodeManager;
 }
   \end{dot2tex}
-  \caption[Caption for LOF]{ Diagramme UML \footnotemark{} simplifier du module graphique. }
+  \caption[Caption for LOF]{ Diagramme UML \footnotemark{} simplifié du module graphique. }
   \label{graphic}
 \end{figure}
 
 \footnotetext{En génie logiciel, le langage de modélisation orienté objet unifié de l'anglais
 	\enquote{Unified Modeling Language}
-		\textendash{ UML }\textendash{ } est la représentation schématique d'un programme par de l'orientée objet}
+		\textendash{ UML }\textendash{ } est la représentation schématique d'un programme par de l'orienté objet}
 
 \chapter{Deuxieme partie}
 
 \section{Bibliothèque}
 
-Ce chapitre énumére une liste exhaustive de bibliothèques dynamiques de langage Libre qui seront programmé par la team \enquote{la confrérie des ténèbres} pour apporter un départ a ce qui pourrait connaitre une evolution communautaire dans les mois à venir.\\*
+Ce chapitre énumère une liste exhaustive de bibliothèques dynamiques issues de langages Libres et qui seront programmées par \enquote{la confrérie des ténèbres} pour apporter une base à ce qui à pour but de s'étendre et évoluer grâce à la communauté.\\*
 
 \begin{labeling}{Longer label\quad}
-    \item[\textbf{help-git} \enquote{noob}] Si le programmeur utilise plus d'une fois sans succès l'option \textit{push}, la nékoe proposera son aide puis informera des instructions shell a saisir.
-	\item[\textbf{travis-git} \enquote{assistance, information}] Quand le programmeur publie une nouvelle version de ça branche et qu'un \textit{.travis} est définie à la racine du projet, alors la nékoe informera son programmeur du resultat.
-    \item[\textbf{must-sleep} \enquote{medical}] Quand le programmeur dépasse dix heures d'activités, la nékoe aura des signes de fatigue et informera une seul fois des conséquences du manque de sommeil sur la productivité.
-    \item[\textbf{lock-terminal} \enquote{assistance}] Après N temps d'inactivitée, la nékoe verrouille le terminal et vie ça vie.
-	\item[\textbf{help-stackoverflow} \enquote{assistance, information}] Si un programme affiche une erreur, la nékoe essaie une recherche sur stackoverflow est propose d'informer son programmeur si elle a trouvée une solution.
-	\item[\textbf{repos-dex} \enquote{assistance, information}] Quand le programmeur entre dans un projet, la nékoe fourni une description.
-	\item[\textbf{email} \enquote{information}] Quand le programmeur reçoit un courriel, la nékoe proposera de la lire.
-	\item[\textbf{man-description} \enquote{help, information}] Lorsque le programmeur saisi la commande \textit{man}, la nékoe avant la validation de ce dernier l'informe de la description de la commande.
-	\item[\textbf{hungry} \enquote{social}] Si le programmeur clique sur la nékoe, celle-si prend une expression affamé.
-	\item[\textbf{not-leave-me} \enquote{social}] Pendant que le programmeur saisi la commande \textit{exit}, la nékoe essaie toute sorte de stratagème pour qu'elle ne soit pas abandonnée.
-	\item[\textbf{overload} \enquote{social, information}] La nékoe aura chaud selon l'usage du CPU.
-	\item[\textbf{season} \enquote{social}] La nékoe sera moins vêtue en hiver qu'en été.
-	\item[\textbf{hello} \enquote{social}] La nékoe salura son programmeur au lancement du terminal.
-	\item[\textbf{wait-make} \enquote{social}] Durant une compilation, la nékoe distraira son programmeur avec des histoires.
-	\item[\textbf{orphan-file} \enquote{noob, information}] Avant de saisir une publication, la nékoe avertie de la présence de fichiés orphelins.
+    \item[\textbf{help-git} \enquote{noob}] Si l'utilisateur utilise plus d'une fois sans succès l'option \textit{push}, la nékoe proposera son aide puis informera des instructions shell à saisir.
+	\item[\textbf{travis-git} \enquote{assistance, information}] Quand l'utilisateur publie une nouvelle version de sa branche et qu'un fichier \textit{.travis} est défini à la racine du projet, alors la nékoe informera son utilisateur du résultat.
+    \item[\textbf{must-sleep} \enquote{medical}] Quand l'utilisateur dépasse dix heures d'activités, la nékoe aura des signes de fatigue et informera une seule fois des conséquences du manque de sommeil sur la productivité.
+    \item[\textbf{lock-terminal} \enquote{assistance}] Après N secondes d'inactivité, la nékoe verrouille le terminal et vit sa vie.
+	\item[\textbf{help-stackoverflow} \enquote{assistance, information}] Si un programme affiche une erreur, la nékoe essaie une recherche sur StackOverflow et propose d'informer l'utilisateur si elle a trouvé une solution.
+	\item[\textbf{repos-dex} \enquote{assistance, information}] Quand l'utilisateur entre dans un projet, la nékoe fournit une description.
+	\item[\textbf{email} \enquote{information}] Quand l'utilisateur reçoit un courriel, la nékoe proposera de le lire.
+	\item[\textbf{man-description} \enquote{help, information}] Lorsque l'utilisateur saisit la commande \textit{man}, la nékoe avant la validation de ce dernier l'informe de la description de la commande.
+	\item[\textbf{hungry} \enquote{social}] Si l'utilisateur clique sur la nékoe, celle-ci prend une expression affamée.
+	\item[\textbf{not-leave-me} \enquote{social}] Pendant que l'utilisateur saisit la commande \textit{exit}, la nékoe essaie des stratagèmes pour ne pas être abandonnée.
+	\item[\textbf{overload} \enquote{social, information}] La lanterne clignote lorsque l'utilisateur surcharge le CPU.
+	\item[\textbf{season} \enquote{social}] La nékoe sera plus vêtue en hiver qu'en été.
+	\item[\textbf{hello} \enquote{social}] La nékoe salue son utilisateur au lancement du terminal.
+	\item[\textbf{wait-make} \enquote{social}] Durant une compilation, la nékoe distraira l'utilisateur avec des histoires.
+	\item[\textbf{orphan-file} \enquote{noob, information}] Avant de saisir une publication, la nékoe avertie de la présence de fichiers orphelins.
 	\item[\textbf{gitignore} \enquote{assistance}] À la création d'un projet, la nékoe propose de créer un .gitignore.
 \end{labeling}
 

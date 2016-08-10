@@ -248,12 +248,12 @@ digraph graphic {
   node [shape = "box", width = "4.5", texmode="verbatim", style = "top color=cyan!10,bottom color=cyan!35,draw=cyan!50,rounded corners"];
   graph [shape = "box", texmode="math", style = "top color=blue!10,bottom color=blue!35,draw=blue!50"];
 
-  nodePartError [label="Enum PartError<Display + Debug + Error>\n
-    UnknownPart
+  nodeTexelError [label="Enum TexelError<Display + Debug + Error>\n
+    UnknownTexel
     ForbiddenGlyph(char)
   "];
 
-  nodePart [label="Enum Part\n
+  nodeTexel [label="Enum Texel\n
     EyeLeft(char)
     EyeRight(char)
     EarLeft(char)
@@ -269,14 +269,14 @@ digraph graphic {
 
   nodeManagerError [label="Enum ManagerError<Display + Debug + Error>\n
       Duplicate
-      BadPart(PartError)
+      BadTexel(TexelError)
   "];
 
   nodeManager [label="Struct Manager<Default>\n
-    part: HashMap<(Posture, Emotion), Part>
+    texel: HashMap<(Posture, Emotion), Texel>
 	sprite: HashMap<String, Sprite>\
 	\n
-    + insert_part(&mut self, key: (Posture, Emotion), value: Part) -> Result<()>
+    + insert_texel(&mut self, key: (Posture, Emotion), value: Texel) -> Result<()>
 	+ insert_sprite(&mut self, key: String, value: Sprite) -> Result<()>
   ", width = 8.5];
 
@@ -300,14 +300,14 @@ digraph graphic {
     const MAX_X: usize = 7;
     const MAX_Y: usize = 10;
 	interval: usize
-    sheet: Vec<(Posture, [[(Emotion, Part); MAX_X]; MAX_Y])>\
+    sheet: Vec<(Posture, [[(Emotion, Texel); MAX_X]; MAX_Y])>\
     \n
-    + new(sheet: Vec<(Posture, [[(Emotion, Part); MAX_X]; MAX_Y])>, interval: usize) -> Result<Self>
+    + new(sheet: Vec<(Posture, [[(Emotion, Texel); MAX_X]; MAX_Y])>, interval: usize) -> Result<Self>
   ", width = 8.5];
 
-  nodePartError -> nodePart;
-  nodePart -> nodeSprite;
-  nodePart -> nodeManager;
+  nodeTexelError -> nodeTexel;
+  nodeTexel -> nodeSprite;
+  nodeTexel -> nodeManager;
   nodeManagerError -> nodeManager;
   nodePosture -> nodeSprite;
   nodePosture -> nodeManager;

@@ -1,3 +1,6 @@
+##### Remarks
+err must be updated for the struct Sprite and the Struct Manager
+
 ```rust
 use std::fmt;
 use std::error::Error;

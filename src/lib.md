@@ -31,4 +31,5 @@ Add more modules.
 /// The module `part` describes a texel from the neko sprite.
 
 pub mod part;
+pub mod graphic;
 ```

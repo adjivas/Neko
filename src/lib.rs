@@ -27,3 +27,4 @@
 /// The module `part` describes a texel from the neko sprite.
 
 pub mod part;
+pud mod graphic;

@@ -5,14 +5,11 @@ rust:
   - stable
   - beta
 
-<<<<<<< HEAD
-=======
 branches:
   except:
     - notes
     - developers-guides
 
->>>>>>> 3b81916b4ab22025133f15f819dbe33aad11c1f8
 # Only while clippy is failing
 matrix:
   allow_failures:

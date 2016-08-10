@@ -1,6 +1,6 @@
 ## Open source, self-hosted, Slack-alternative team collaboration/communication tool/chat
 
-#### Requirments
+#### Requirements
 - history (conversation persistent )
 - weechat/irc bridge/plugin
 - cheap or (better) free hosting
@@ -28,7 +28,8 @@
         -  `weechat-matrix-protocol-script`  is a plugin maintained by _torhve an active rust developer and member of **_Glowing Bear_ (Weechat Web organisation)  
         -  [RumaRuma is a server written in Rus](http://matrix.org/docs/projects/server/ruma.html) used in _Matrix_  
     __Cons__:  
-        -  
+
+        
 #### other
 - [Rocket.chat](https://rocket.chat/)  
     __Pros__:  

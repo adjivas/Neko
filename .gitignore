@@ -9,10 +9,8 @@
 *.cache
 
 # Makefile
-latexbok-a4-dot2tex-fig1.tex
-latexbok-c5-dot2tex-fig1.tex
-latexbok-a4-dot2tex-fig2.tex
-latexbok-c5-dot2tex-fig2.tex
+*-a4-dot2tex-fig*.tex
+*-c5-dot2tex-fig*.tex
 
 # VIM
 *.swp

@@ -158,7 +158,7 @@ Seront executées les séquences suivantes :
 
 \begin{labeling}{Longer label\quad}
 	\item[\textbf{Start} quand la bibliothèque est montée.]
-	\item[\textbf{Update} pour chaque cycle.]
+	\item[\textbf{Idle} pour chaque cycle.]
 	\item[\textbf{MousePress} quand le pointeur est pressé dans le terminal.]
 	\item[\textbf{MousePressNeko} quand le pointeur est pressé sur la nékoe.]
 	\item[\textbf{MouseRelease} quand le pointeur est relâché dans le terminal.]
@@ -196,7 +196,7 @@ digraph graphic {
 
   nodeLibrary [label="Struct Library<Drop>\n
 	start: Option<Event>
-	+ update: Option<Event>
+	+ idle: Option<Event>
 	+ mouse_press: Option<Event>
 	+ mouse_press_neko: Option<Event>
 	+ mouse_release: Option<Event>

@@ -15,7 +15,6 @@
 #![cfg_attr(feature = "lints", deny(warnings))]
 #![cfg_attr(not(any(feature = "lints", feature = "nightly")), deny(unstable_features))]
 #![deny(
-        missing_docs,
         missing_debug_implementations,
         missing_copy_implementations,
         trivial_casts,
@@ -27,4 +26,4 @@
 /// The module `part` describes a texel from the neko sprite.
 
 pub mod part;
-pud mod graphic;
+pub mod graphic;

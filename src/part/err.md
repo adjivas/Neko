@@ -1,7 +1,11 @@
-##### Remarks
-err must be updated for the struct Sprite and the Struct Manager
-
 ```rust
+// @adjivas - github.com/adjivas. See the LICENSE
+// file at the top-level directory of this distribution and at
+// https://github.com/adjivas/Neko
+//
+// This file may not be copied, modified, or distributed
+// except according to those terms.
+
 use std::fmt;
 use std::error::Error;
 

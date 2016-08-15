@@ -7,7 +7,6 @@ authors       = [
 	"flime <LinFeiLong@users.noreply.github.com>",
 	"jpepin <limaconoob@users.noreply.github.com>"
 ]
-build         = "tango-build.rs"
 description   = ""
 documentation = "https://adjivas.github.io/Neko/neko"
 repository    = "https://github.com/adjivas/Neko.git"
@@ -32,9 +31,6 @@ nightly       = [] # for building with nightly and unstable features
 unstable      = [] # for building with unstable features on stable Rust
 debug         = [] # for building with debug messages
 travis        = ["lints", "nightly"] # for building with travis-cargo
-
-[build-dependencies.tango]
-git = "https://github.com/pnkfelix/tango"
 
 [dependencies.clippy]
 version       = "*"

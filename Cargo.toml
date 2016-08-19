@@ -1,0 +1,10 @@
+[package]
+name = "ms"
+version = "0.1.0"
+authors = ["Jeremy PEPIN <jpepin@student.42.fr>"]
+
+[target.'cfg(not(target_os = "redox"))'.dependencies]
+libc = "0.2.8"
+
+[dependencies.termion]
+path = "src/termion"

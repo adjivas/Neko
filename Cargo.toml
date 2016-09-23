@@ -14,10 +14,10 @@ readme        = "README.md"
 keywords      = ["neko", "glyphArt"]
 license       = "GPL-3.0"
 
-[[bin]]
-name          = "neko"
-path          = "src/main.rs"
-doc           = false
+#[[bin]]
+#name          = "neko"
+#path          = "src/main.rs"
+#doc           = false
 
 [lib]
 name          = "neko"
@@ -35,3 +35,6 @@ travis        = ["lints", "nightly"] # for building with travis-cargo
 [dependencies.clippy]
 version       = "*"
 optional      = true
+
+[dependencies.dylib]
+version       = "*"

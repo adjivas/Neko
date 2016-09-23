@@ -7,7 +7,7 @@
 
 //! # neko
 //!
-//! This library contains the module `graphic` and `dy`.
+//! This library contains the module `graphic` and `dynamic`.
 
 #![crate_type= "lib"]
 #![cfg_attr(feature = "nightly", feature(plugin))]
@@ -23,7 +23,7 @@
         unused_qualifications
 )]
 
-/// The module `part` describes a texel from the neko sprite.
+extern crate dylib;
 
-pub mod part;
-pub mod graphic;
+/// The module `dynamic` is the compositer of extern libraries.
+pub mod dynamic;

@@ -22,9 +22,23 @@ cache:
     - $TRAVIS_BUILD_DIR/target
     - $HOME/.cargo
 
-os:
-  - linux
-  - osx
+before_script:
+  - pip install 'travis-cargo<0.2' --user && export PATH=$HOME/.local/bin:$PATH
+  - ssh-keygen -t rsa -f ~/.ssh/id_rsa -N "" -q
+  - eval `ssh-agent -s`
+  - ssh-add ~/.ssh/id_rsa
+  - cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+  - telnet localhost 22 &
 
 script:
   - cargo build --verbose
+
+addons:
+  apt:
+    sources:
+      - kalakris-cmake
+    packages:
+      - cmake
+      - libcurl4-openssl-dev
+      - libelf-dev
+      - libdw-dev

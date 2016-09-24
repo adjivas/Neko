@@ -1,0 +1,12 @@
+# This file describe the command line interface options
+name: Neko
+version: 0.1
+about: NEKO prompt program
+author: adjivas <adjivas@users.noreply.github.com>, brezaire <voncay@users.noreply.github.com>, flime <LinFeiLong@users.noreply.github.com>, Jeremy PEPIN <jpepin@student.42.fr>
+
+args:
+    - delay:
+        help: Defines the delay.
+        short: d
+        long: delay
+        takes_value: true

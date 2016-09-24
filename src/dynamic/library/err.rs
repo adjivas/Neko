@@ -17,16 +17,14 @@ pub enum LibraryError {
 }
 
 impl fmt::Display for LibraryError {
-
-   /// The function `fmt` formats the value using
-   /// the given formatter.
-   fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-       write!(f, "{}", self)
-   }
+    /// The function `fmt` formats the value using
+    /// the given formatter.
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{}", self)
+    }
 }
 
 impl Error for LibraryError {
-
     /// The function `description` returns a short description of
     /// the error.
     fn description(&self) -> &str {

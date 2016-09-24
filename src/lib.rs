@@ -23,6 +23,9 @@
         unused_qualifications
 )]
 
+#![doc(html_logo_url = "https://arukana.github.io/Neko/images/neko.png")]
+
+extern crate git2;
 extern crate dylib;
 
 /// The module `dynamic` is the compositer of extern libraries.

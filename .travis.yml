@@ -28,5 +28,3 @@ os:
 
 script:
   - cargo build --verbose
-  - cargo test
-  - cargo bench

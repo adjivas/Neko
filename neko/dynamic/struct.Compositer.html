@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `Compositer` struct in crate `neko`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Compositer">
+
+    <title>neko::dynamic::Compositer - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        <a href='../../neko/index.html'><img src='https://arukana.github.io/Neko/images/neko.png' alt='logo' width='100'></a>
+        <p class='location'><a href='../index.html'>neko</a>::<wbr><a href='index.html'>dynamic</a></p><script>window.sidebarCurrent = {name: 'Compositer', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>neko</a>::<wbr><a href='index.html'>dynamic</a>::<wbr><a class='struct' href=''>Compositer</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-147' class='srclink' href='../../src/neko/src/dynamic/mod.rs.html#26' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct Compositer(_);</pre><div class='docblock'><p>The struct <code>Compositer</code> is a heap of a double tuple
+of a dynamic libraries and a priority order.</p>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class='struct' href='../../neko/dynamic/struct.Compositer.html' title='neko::dynamic::Compositer'>Compositer</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-150' class='srclink' href='../../src/neko/src/dynamic/mod.rs.html#28-143' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.source' class='method'><span id='source.v' class='invisible'><code>fn <a href='#method.source' class='fnname'>source</a>(&amp;self) -&gt; <a class='struct' href='https://doc.rust-lang.org/nightly/std/path/struct.PathBuf.html' title='std::path::PathBuf'>PathBuf</a></code></span></h4>
+<div class='docblock'><p>The accessor method <code>source</code> returns the source directory where
+found the <code>git</code> and <code>lib</code> sub-directories.</p>
+</div><h4 id='method.mount' class='method'><span id='mount.v' class='invisible'><code>fn <a href='#method.mount' class='fnname'>mount</a>&lt;S:&nbsp;<a class='trait' href='https://doc.rust-lang.org/nightly/core/convert/trait.AsRef.html' title='core::convert::AsRef'>AsRef</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/std/ffi/os_str/struct.OsStr.html' title='std::ffi::os_str::OsStr'>OsStr</a>&gt;&gt;(&amp;mut self, libraryname: S, priority: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>&gt;) -&gt; <a class='type' href='../../neko/dynamic/err/type.Result.html' title='neko::dynamic::err::Result'>Result</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>&gt;</code></span></h4>
+<div class='docblock'><p>The method <code>mount</code> adds a new library to the heap&#39;s compositer.</p>
+</div><h4 id='method.mount_from_dir' class='method'><span id='mount_from_dir.v' class='invisible'><code>fn <a href='#method.mount_from_dir' class='fnname'>mount_from_dir</a>(&amp;mut self, directory: &amp;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>, priority: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>&gt;) -&gt; <a class='type' href='../../neko/dynamic/err/type.Result.html' title='neko::dynamic::err::Result'>Result</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>&gt;</code></span></h4>
+<div class='docblock'><p>The method <code>mount_from_dir</code> adds a new library to the heap&#39;s compositer
+from a directory.</p>
+</div><h4 id='method.mount_from_git' class='method'><span id='mount_from_git.v' class='invisible'><code>fn <a href='#method.mount_from_git' class='fnname'>mount_from_git</a>(&amp;mut self, repository: &amp;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>, priority: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>&gt;) -&gt; <a class='type' href='../../neko/dynamic/err/type.Result.html' title='neko::dynamic::err::Result'>Result</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>&gt;</code></span></h4>
+<div class='docblock'><p>The method <code>mount_from_git</code> adds a new library to the heap&#39;s compositer
+from a git repository.</p>
+</div><h4 id='method.start' class='method'><span id='start.v' class='invisible'><code>fn <a href='#method.start' class='fnname'>start</a>(&amp;self)</code></span></h4>
+</div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='struct' href='../../neko/dynamic/struct.Compositer.html' title='neko::dynamic::Compositer'>Compositer</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-141' class='srclink' href='../../src/neko/src/dynamic/mod.rs.html#25' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.fmt' class='method'><span id='fmt.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class='struct' href='https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='https://doc.rust-lang.org/nightly/core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></span></h4>
+<div class='docblock'><p>Formats the value using the given formatter.</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/default/trait.Default.html' title='core::default::Default'>Default</a> for <a class='struct' href='../../neko/dynamic/struct.Compositer.html' title='neko::dynamic::Compositer'>Compositer</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-187' class='srclink' href='../../src/neko/src/dynamic/mod.rs.html#146-167' title='goto source code'>[src]</a></span></h3>
+<div class='docblock'><p>A trait for giving a type a useful default value.</p>
+</div><div class='impl-items'><h4 id='method.default' class='method'><span id='default.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/default/trait.Default.html#tymethod.default' class='fnname'>default</a>() -&gt; <a class='struct' href='../../neko/dynamic/struct.Compositer.html' title='neko::dynamic::Compositer'>Compositer</a></code></span></h4>
+<div class='docblock'><p>The constructor <code>default</code> returns a Compositer prepared with
+the libraries from the source directory.</p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "neko";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

@@ -1,0 +1,1 @@
+initSidebarItems({"mod":[["dynamic","The module `dynamic` is the compositer of extern libraries."]]});

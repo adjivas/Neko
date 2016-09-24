@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["CompositerError","The enum `CompositerError` defines the possible errors from constructor Compositer."]],"type":[["Result",""]]});

@@ -1,7 +1,7 @@
 mod err;
 
 pub use self::err::{LibraryError, Result};
-use std::path::Path;
+use std::path::PathBuf;
 use std::cmp::{Eq, Ordering};
 use std::fmt;
 use std::mem;
@@ -12,6 +12,8 @@ use ::dylib;
 pub struct Library {
     /// `start` interface.
     start: Option<fn()>,
+    /// Address of the library.
+    path: PathBuf,
     /// dynamic library interface.
     dylib: dylib::DynamicLibrary,
     /// priority queue.
@@ -20,8 +22,8 @@ pub struct Library {
 
 impl Library {
     /// The constructor method `new` returns a interface for a extern library.
-    pub fn new(path: &Path, index: usize) -> Result<Self> {
-        match dylib::DynamicLibrary::open(Some(path)) {
+    pub fn new(path: PathBuf, index: usize) -> Result<Self> {
+        match dylib::DynamicLibrary::open(Some(&path)) {
             Err(why) => Err(LibraryError::BadDyLib(why)),
             Ok(lib) => unsafe {
                 Ok(Library {
@@ -31,11 +33,17 @@ impl Library {
                     } else {
                         None
                     },
+                    path: path,
                     dylib: lib,
                     index: index,
                 })
             },
         }
+    }
+
+    /// The accessor method `as_path_buf` return address of library.
+    pub fn as_path_buf(&self) -> &PathBuf {
+        &self.path
     }
 
     /// The method `start` call the extern function if defined.

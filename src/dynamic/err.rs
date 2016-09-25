@@ -24,6 +24,10 @@ pub enum CompositerError {
     BadCommand(io::Error),
     /// The command haven't a success return.
     BadReturnCommand(i32),
+    /// The library wasn't found.
+    NotUnmounted,
+    /// The library can't be removed.
+    NotUninstalled(io::Error),
 }
 
 impl fmt::Display for CompositerError {
@@ -42,9 +46,13 @@ impl Error for CompositerError {
             CompositerError::BadMount(_) => "Can't mount the dynamic library.",
             CompositerError::BadGitClone(_) => "Can't clone the repository.",
             CompositerError::BadCommand(_) => "The command can't be run.",
-            CompositerError::BadReturnCommand(_) => "The command haven't a success return.",
+            CompositerError::BadReturnCommand(_) => {
+                "The command haven't a success return."
+            }
             CompositerError::BadPath => "Path not exist.",
             CompositerError::NotMakeFound => "The Makefile isn't accessible.",
+            CompositerError::NotUnmounted => "The library wasn't found.",
+            CompositerError::NotUninstalled(_) => "The library can't be removed",
         }
     }
 
@@ -55,6 +63,7 @@ impl Error for CompositerError {
             CompositerError::BadMount(ref why) => Some(why),
             CompositerError::BadGitClone(ref why) => Some(why),
             CompositerError::BadCommand(ref why) => Some(why),
+            CompositerError::NotUninstalled(ref why) => Some(why),
             _ => None,
         }
     }

@@ -10,12 +10,16 @@ pub type Result<T> = ::std::result::Result<T, CompositerError>;
 /// from constructor Compositer.
 #[derive(Debug)]
 pub enum CompositerError {
-  /// Can't clone the repository.
-  BadPath,
-  /// The command can't be run.
-  BadCommand(io::Error),
+  /// Can't fount the repository.
+  LibraryNotFound,
   /// The command haven't a success return.
-  BadReturnCommand(i32),
+  CommandFail(i32),
+  /// The command can't be run.
+  CallCommandFail(io::Error),
+  /// The directory can't be created.
+  MkdirFail(io::Error),
+  /// The directory can't be moved.
+  MvFail(io::Error),
   /// Can't mount the dynamic library.
   NotMounted(LibraryError),
   /// The Makefile isn't accessible.
@@ -45,10 +49,12 @@ impl Error for CompositerError {
   /// the error.
   fn description(&self) -> &str {
     match *self {
-      CompositerError::BadCommand(_) => "The command can't be run.",
-      CompositerError::BadReturnCommand(_) => "The command haven't a success return.",
+      CompositerError::CallCommandFail(_) => "The command can't be run.",
+      CompositerError::CommandFail(_) => "The command haven't a success return.",
+      CompositerError::MkdirFail(_) => "The directory can't be created.",
+      CompositerError::MvFail(_) => "The directory can't be moved.",
       CompositerError::NotMounted(_) => "Can't mount the dynamic library.",
-      CompositerError::BadPath => "Path not exist.",
+      CompositerError::LibraryNotFound => "The library wasn't found.",
       CompositerError::NotMakeFound => "The Makefile isn't accessible.",
       CompositerError::NotUnmounted => "The library wasn't found.",
       CompositerError::NotUninstalled(_) => "The library can't be removed",
@@ -62,8 +68,10 @@ impl Error for CompositerError {
   /// this error if any.
   fn cause(&self) -> Option<&Error> {
     match *self {
+      CompositerError::CallCommandFail(ref why) => Some(why),
+      CompositerError::MkdirFail(ref why) => Some(why),
+      CompositerError::MvFail(ref why) => Some(why),
       CompositerError::NotMounted(ref why) => Some(why),
-      CompositerError::BadCommand(ref why) => Some(why),
       CompositerError::NotUninstalled(ref why) => Some(why),
       _ => None,
     }

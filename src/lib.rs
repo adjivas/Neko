@@ -30,3 +30,5 @@ extern crate dylib;
 
 /// The module `dynamic` is the compositer of extern libraries.
 pub mod dynamic;
+/// The module `graphic` is the manager of neko's sprites
+pub mod graphic;

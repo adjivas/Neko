@@ -36,6 +36,9 @@ travis           = ["lints", "nightly"] # for building with travis-cargo
 version          = "*"
 optional         = true
 
+[dependencies.lalrpop]
+version          = "0.12.0"
+
 [dependencies.dylib]
 version          = "*"
 

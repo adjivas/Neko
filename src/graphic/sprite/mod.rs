@@ -3,14 +3,14 @@ pub mod err;
 
 pub use self::err::{SpriteError, Result};
 use self::texel::Texel;
-use super::posture::{Posture, PostureError};
+use super::position::{Position, PositionError};
 use super::emotion::{Emotion, EmotionError};
 
 pub const SPEC_MAX_X: usize = 7;
 pub const SPEC_MAX_Y: usize = 10;
 const SPEC_CAPACITY_SHEET: usize = 70;
 
-pub type Draw = (Posture, Vec<(Emotion, Texel)>);
+pub type Draw = (Position, Vec<(Emotion, Texel)>);
 
 #[derive(Clone, Debug)]
 pub struct Sprite {

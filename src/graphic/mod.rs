@@ -1,10 +1,11 @@
 mod sprite;
 mod emotion;
-mod posture;
+mod position;
 
 use self::sprite::{Sprite, SpriteError};
 use self::sprite::texel::{Texel, TexelError};
-use self::posture::{Posture, PostureError};
+use self::sprite::texel::part::{Part, PartError};
+use self::position::{Position, PositionError};
 use self::emotion::{Emotion, EmotionError};
 
 use std::collections::HashMap;
@@ -15,12 +16,10 @@ const SPEC_CAPACITY_TEXEL: usize = 4095;
 /// The default capacity of sprite dictionary.
 const SPEC_CAPACITY_SPRITE: usize = 1024;
 
-pub type Key = (Posture, Emotion);
-
 #[derive(Clone, Debug)]
 pub struct Manager {
   /// Dictionary of texel.
-  texel: HashMap<Key, Texel>,
+  texel: HashMap<(Position, Part, Emotion), Texel>,
   /// Dictionary of sprite.
   sprite: HashMap<String, Sprite>,
 }
@@ -30,7 +29,7 @@ impl Manager {
   /// The function `insert_texel` insert a texel.
   fn insert_texel(
     &mut self,
-    key: Key,
+    key: (Position, Part, Emotion),
     val: Texel,
   ) -> Option<Texel> {
     self.texel.insert(key, val)

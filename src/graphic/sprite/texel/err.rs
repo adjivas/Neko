@@ -2,13 +2,15 @@ use std::error::Error;
 use std::fmt;
 use std::io;
 
+use super::part::PartError;
+
 pub type Result<T> = ::std::result::Result<T, TexelError>;
 
 /// The enum `TexelError` defines the possible errors
 /// from constructor Texel.
 #[derive(Clone, Copy, Debug)]
 pub enum TexelError {
-  UnknownTexel,
+  PartFail(PartError),
   ForbiddenGlyph(u8),
 }
 
@@ -26,7 +28,7 @@ impl Error for TexelError {
   /// the error.
   fn description(&self) -> &str {
     match *self {
-      TexelError::UnknownTexel => "The texel value is unknown.",
+      TexelError::PartFail(_) => "The part constructor as occured an error.",
       TexelError::ForbiddenGlyph(_) => "Is out of the private unicode range.",
     }
   }
@@ -34,6 +36,9 @@ impl Error for TexelError {
   /// The function `cause` returns the lower-level cause of
   /// this error if any.
   fn cause(&self) -> Option<&Error> {
-    None
+    match *self {
+      TexelError::PartFail(ref err) => Some(err),
+      _ => None,
+    }
   }
 }

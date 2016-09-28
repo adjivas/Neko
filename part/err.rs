@@ -2,17 +2,17 @@ use std::error::Error;
 use std::fmt;
 use std::io;
 
-pub type Result<T> = ::std::result::Result<T, PostureError>;
+pub type Result<T> = ::std::result::Result<T, TexelError>;
 
-
-/// The enum `PostureError` defines the possible errors
-/// from constructor Posture.
+/// The enum `TexelError` defines the possible errors
+/// from constructor Texel.
 #[derive(Clone, Copy, Debug)]
-pub enum PostureError {
-  UnknownPosture,
+pub enum TexelError {
+  UnknownTexel,
+  ForbiddenGlyph(u8),
 }
 
-impl fmt::Display for PostureError {
+impl fmt::Display for TexelError {
 
   /// The function `fmt` formats the value using
   /// the given formatter.
@@ -21,12 +21,13 @@ impl fmt::Display for PostureError {
   }
 }
 
-impl Error for PostureError {
+impl Error for TexelError {
   /// The function `description` returns a short description of
   /// the error.
   fn description(&self) -> &str {
     match *self {
-      PostureError::UnknownPosture => "The posture value is unknown.",
+      TexelError::UnknownTexel => "The texel value is unknown.",
+      TexelError::ForbiddenGlyph(_) => "Is out of the private unicode range.",
     }
   }
 

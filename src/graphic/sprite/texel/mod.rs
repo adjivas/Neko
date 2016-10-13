@@ -20,6 +20,10 @@ impl Texel {
       Err(TexelError::ForbiddenGlyph(glyph))
     }
   }
+  
+  pub fn as_part(&self) -> Part {
+    self.0
+  }
 }
 
 impl PartialEq for Texel {

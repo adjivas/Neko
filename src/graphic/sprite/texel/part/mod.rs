@@ -11,7 +11,7 @@ impl Part {
   pub fn new(part: &'static str) -> Result<Self> {
     match part {
       "EyeLeft" => Ok(Part::EyeLeft),
-      _ => Err(PartError::UnknownPart),
+              _ => Err(PartError::UnknownPart),
     }
   }
 }

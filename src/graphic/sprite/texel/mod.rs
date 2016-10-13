@@ -10,7 +10,7 @@ pub use self::err::{TexelError, Result};
 pub struct Texel(Part, u8);
 
 impl Texel {
-  pub fn new(part: &'static str, glyph: u8) -> Result<Self> {
+  pub fn new(part: &str, glyph: u8) -> Result<Self> {
     if let 57344 ... 63743 = glyph {
       match Part::new(part) {
         Ok(part) => Ok(Texel(part, glyph)),

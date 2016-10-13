@@ -54,36 +54,31 @@ impl Manager {
     self.sprite.insert(key, val)
   }
 
-  /// (1) The function `from_file_texel` insert a texel from a file.
+  /// The function `from_file_texel` insert a texel from a file.
   pub fn insert_from_texelfile<S: AsRef<OsStr> >(
     &mut self,
     filename: S,
   ) {
-
-    //open texel config file
     match fs::OpenOptions::new().read(true).open(filename.as_ref()) {
       Err(why) => panic!("couldn't create {:?}: {}",
                         filename.as_ref(),
                         why.description()),
       Ok(file) => {
-        
-        //get the sprite with parser from configfile to be tokenized
-        let mut reader = io::BufReader::new(file).lines();     // iterator
-
-        reader.all(|line: io::Result<String>| {
-          if let Some(buf) = line.ok() {
-            let tokens: Vec<&str> = buf.split(|c|
+        let mut reader = io::BufReader::new(file).lines();
+          reader.all(|line: io::Result<String>| {
+          if let Some(line) = line.ok() {
+            let words: Vec<&str> = line.split(|c|
               "('): [,]".contains(c)
             ).filter(|x|
               x.is_empty().not()
             ).collect::<Vec<&str>>();
-            match &tokens[..] {
+            match &words[..] {
               &[pt, character, emotion, ref position..] => {
-                position.iter().all(|content|
+                position.iter().all(|content: &&str|
                   if let (Some(position),
                           Some(part),
                           Some(emotion),
-                          Some(glyph)) = (Position::new(content).ok(),
+                          Some(glyph)) = (Position::new(&content).ok(),
                                           Part::new(pt).ok(),
                                           Emotion::new(emotion).ok(),
                                           character.as_bytes().first()) {

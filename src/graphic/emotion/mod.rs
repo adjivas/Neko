@@ -10,7 +10,7 @@ pub enum Emotion {
 }
 
 impl Emotion {
-  pub fn new(content: &'static str) -> Result<Self> {
+  pub fn new(content: &str) -> Result<Self> {
     match content {
       "Happy" => Ok(Emotion::Happy),
       "Malicious" => Ok(Emotion::Malicious),

@@ -14,16 +14,6 @@ readme          = "README.md"
 keywords        = ["neko", "glyphArt"]
 license         = "GPL-3.0"
 
-[[bin]]
-name            = "neko"
-path            = "src/main.rs"
-doc             = false
-
-[lib]
-name             = "neko"
-path             = "src/lib.rs"
-plugin           = true
-
 [features]
 default          = []
 lints            = ["clippy", "nightly"]

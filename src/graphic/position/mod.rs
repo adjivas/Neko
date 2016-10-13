@@ -1,5 +1,6 @@
 pub mod err;
 
+use std::ffi::OsStr;
 pub use self::err::{PositionError, Result};
 
 #[derive(Clone, Copy, Eq, PartialEq, Hash, Debug)]
@@ -10,7 +11,7 @@ pub enum Position {
 }
 
 impl Position {
-  pub fn new(content: &'static str) -> Result<Self> {
+  pub fn new (content: &str) -> Result<Self> {
     match content {
       "LotusHandsOnFloor" => Ok(Position::LotusHandsOnFloor),
       "LyingOnSomething" => Ok(Position::LyingOnSomething),

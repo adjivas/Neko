@@ -12,10 +12,10 @@ pub enum Emotion {
 impl Emotion {
   pub fn new(content: &str) -> Result<Self> {
     match content {
-      "Happy" => Ok(Emotion::Happy),
+      "Happy"     => Ok(Emotion::Happy),
       "Malicious" => Ok(Emotion::Malicious),
-      "None" => Ok(Emotion::None),
-      _ => unimplemented!()
+      "None"      => Ok(Emotion::None),
+                _ => unimplemented!()
     }
   }
 }

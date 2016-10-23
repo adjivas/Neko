@@ -14,9 +14,9 @@ impl Position {
   pub fn new (content: &str) -> Result<Self> {
     match content {
       "LotusHandsOnFloor" => Ok(Position::LotusHandsOnFloor),
-      "LyingOnSomething" => Ok(Position::LyingOnSomething),
-      "None" => Ok(Position::None),
-      _ => unimplemented!()
+      "LyingOnSomething"  => Ok(Position::LyingOnSomething),
+      "None"              => Ok(Position::None),
+                        _ => unimplemented!()
     }
   }
 }

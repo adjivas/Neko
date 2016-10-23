@@ -2,12 +2,7 @@ mod sprite;
 mod emotion;
 mod position;
 
-use self::sprite::{Sprite, SpriteError};
-use self::sprite::texel::{Texel, TexelError};
-use self::sprite::texel::part::{Part, PartError};
-use self::position::{Position, PositionError};
-use self::emotion::{Emotion, EmotionError};
-
+use std::collections::VecDeque;
 use std::collections::HashMap;
 use std::ffi::OsStr;
 use std::error::Error;
@@ -16,6 +11,13 @@ use std::path::Path;
 use std::io::prelude::*;
 use std::io;
 use std::ops::Not;
+
+use self::sprite::draw::{Draw, SPEC_MAX_XY};
+use self::sprite::{Sprite, SpriteError};
+use self::sprite::texel::{Texel, TexelError};
+use self::sprite::texel::part::{Part, PartError};
+use self::position::{Position, PositionError};
+use self::emotion::{Emotion, EmotionError};
 
 /// The default capacity of texel dictionary.
 const SPEC_CAPACITY_TEXEL:  usize = 4095;
@@ -27,12 +29,11 @@ pub struct Manager {
   /// Dictionary of texel.
   texel: HashMap<(Position, Part, Emotion), Texel>,
   /// Dictionary of sprite.
-  sprite: HashMap<String, Sprite>, //String is the `Expression \n Representation of the sprite ibn the Dictionary of Sprite`
+  ///String is the `Expression \n Representation of the sprite ibn the Dictionary of Sprite`
+  sprite: HashMap<String, Sprite>,
 }
 
-
 //     println!("{:?}", line.split(|c| "('): [,]".contains(c) ).filter(|x| !x.is_empty()).collect::<Vec<&str>>() );
-
 
 impl Manager {
 
@@ -48,8 +49,8 @@ impl Manager {
   /// The function `insert_sprite` insert a sprite.
   fn insert_sprite(
     &mut self,
-    key : String,
-    val: Sprite,
+    key : String, //name of the the sprite config file
+    val : Sprite,
   ) -> Option<Sprite> {
     self.sprite.insert(key, val)
   }
@@ -63,9 +64,9 @@ impl Manager {
       Err(why) => panic!("couldn't create {:?}: {}",
                         filename.as_ref(),
                         why.description()),
-      Ok(file) => {
-        let mut reader = io::BufReader::new(file).lines();
-          reader.all(|line: io::Result<String>| {
+      Ok(buffer) => {
+        let mut reader = io::BufReader::new(buffer).lines();
+        reader.all(|line: io::Result<String>| {
           if let Some(line) = line.ok() {
             let words: Vec<&str> = line.split(|c|
               "('): [,]".contains(c)
@@ -73,8 +74,8 @@ impl Manager {
               x.is_empty().not()
             ).collect::<Vec<&str>>();
             match &words[..] {
-              &[pt, character, emotion, ref position..] => {
-                position.iter().all(|content: &&str|
+              &[pt, character, emotion, ref positions..] => {
+                positions.iter().all(|content: &&str|
                   if let (Some(position),
                           Some(part),
                           Some(emotion),
@@ -111,14 +112,69 @@ impl Manager {
     &mut self,
     filename: S,
   ) {
+    let mut sprite: Sprite = Sprite::default();
 
-    // TODO: pretty much the same as above but for sprite
+    match fs::OpenOptions::new().read(true).open(filename.as_ref()) {
+      Err(why) => panic!("couldn't create {:?}: {}",
+                        filename.as_ref(),
+                        why.description()),
+      Ok(mut file) => {
+        let mut buffer = String::new();
+        if file.read_to_string(&mut buffer).is_ok() {
+          let mut words: VecDeque<&str> = buffer.split(|c|
+            " \n:".contains(c)
+          ).filter(|x|
+            x.is_empty().not()
+          ).collect::<VecDeque<&str>>();
 
-    //open sprite config file
-    //get the sprite with parser from configfile
-    //push the relevant sprite to sprite hashmap
-    unimplemented!()
-  }
+          if let Some(position) = Position::new(words.pop_front().unwrap())
+                                           .ok() {
+            println!("{:?}", position );  //debug
+            let mut potential_draw_chunks = words.as_slices().0.chunks(
+              SPEC_MAX_XY*2
+            );
+            potential_draw_chunks.all(|chunck| {
+              let mut pairs = chunck.chunks(2);
+
+              /* filter_map vs match... Fight! */
+
+              if let Ok(draw) = Draw::new(
+                position,
+                pairs.map(|pair: &[&str]| {
+                  match pair {
+                    &[part, emotion] => {
+                      if let (Ok(part), Ok(emotion)) = (
+                        Part::new(part),
+                        Emotion::new(emotion)
+                      ) {
+                        if let Some(texel) = self.texel.get(&(position,
+                          part,
+                          emotion
+                        )) {
+                          Some((emotion, *texel))
+                        } else {
+                          None
+                        }
+                      } else {
+                        None
+                      }
+                    },
+                    _ => None,
+                  }
+                }).filter_map(|s| s)
+                  .collect::<Vec<(Emotion, Texel)>>().as_slice()
+              ) {
+                sprite.insert(draw);
+                true
+              } else {
+                false
+              }
+            });
+          }
+        }
+      }
+    }
+  } // End fn insert_from_spritefile 
 
 } // End of impl Manager
 

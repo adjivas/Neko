@@ -5,13 +5,16 @@ pub use self::err::{PartError, Result};
 #[derive(Clone, Copy, Debug, Hash, Eq, PartialEq)]
 pub enum Part {
   EyeLeft,
+  EyeRight,
+  None,
 }
 
 impl Part {
   pub fn new(part: &str) -> Result<Self> {
     match part {
-      "EyeLeft" => Ok(Part::EyeLeft),
-              _ => Err(PartError::UnknownPart),
+      "eyeLeft"  => Ok(Part::EyeLeft),
+      "eyeRight" => Ok(Part::EyeRight),
+               _ => Err(PartError::UnknownPart),
     }
   }
 }

@@ -1,6 +1,5 @@
 use std::error::Error;
 use std::fmt;
-use std::io;
 
 pub type Result<T> = ::std::result::Result<T, SpriteError>;
 

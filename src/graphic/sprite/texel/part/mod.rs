@@ -14,6 +14,7 @@ impl Part {
     match part {
       "eyeLeft"  => Ok(Part::EyeLeft),
       "eyeRight" => Ok(Part::EyeRight),
+      "none" => Ok(Part::None),
                _ => Err(PartError::UnknownPart),
     }
   }

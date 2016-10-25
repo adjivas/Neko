@@ -7,10 +7,10 @@ use self::part::Part;
 pub use self::err::{TexelError, Result};
 
 #[derive(Clone, Copy, Debug)]
-pub struct Texel(Part, u8);
+pub struct Texel(Part, u32);
 
 impl Texel {
-  pub fn new(part: &str, glyph: u8) -> Result<Self> {
+  pub fn new(part: &str, glyph: u32) -> Result<Self> {
     if let 57344 ... 63743 = glyph {
       match Part::new(part) {
         Ok(part) => Ok(Texel(part, glyph)),
@@ -19,10 +19,6 @@ impl Texel {
     } else {
       Err(TexelError::ForbiddenGlyph(glyph))
     }
-  }
-  
-  pub fn as_part(&self) -> Part {
-    self.0
   }
 }
 

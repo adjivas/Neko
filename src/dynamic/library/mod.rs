@@ -15,6 +15,7 @@ pub struct Library {
   /// Address of the library.
   path: PathBuf,
   /// dynamic library interface.
+  #[allow(dead_code)]
   dylib: dylib::DynamicLibrary,
   /// priority queue.
   index: usize,

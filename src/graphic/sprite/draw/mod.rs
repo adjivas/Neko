@@ -7,7 +7,7 @@ pub use self::err::{DrawError, Result};
 
 pub const SPEC_MAX_X: usize  = 7;
 pub const SPEC_MAX_Y: usize  = 10;
-pub const SPEC_MAX_XY: usize = 70;
+pub const SPEC_MAX_XY: usize = SPEC_MAX_X*SPEC_MAX_Y;
 
 pub use super::Texel;
 pub use super::{Position, PositionError};

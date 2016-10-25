@@ -15,7 +15,7 @@ impl Emotion {
       "Happy"     => Ok(Emotion::Happy),
       "Malicious" => Ok(Emotion::Malicious),
       "None"      => Ok(Emotion::None),
-                _ => unimplemented!()
+                _ => Err(EmotionError::UnknownEmotion)
     }
   }
 }

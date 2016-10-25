@@ -6,21 +6,21 @@ use std::collections::VecDeque;
 use std::collections::HashMap;
 use std::ffi::OsStr;
 use std::error::Error;
-use std::fs::{self, File};
-use std::path::Path;
+use std::fs;
 use std::io::prelude::*;
 use std::io;
 use std::ops::Not;
+use std::mem;
 
 use self::sprite::draw::{Draw, SPEC_MAX_XY};
-use self::sprite::{Sprite, SpriteError};
-use self::sprite::texel::{Texel, TexelError};
-use self::sprite::texel::part::{Part, PartError};
-use self::position::{Position, PositionError};
-use self::emotion::{Emotion, EmotionError};
+use self::sprite::Sprite;
+use self::sprite::texel::Texel;
+use self::sprite::texel::part::Part;
+use self::position::Position;
+use self::emotion::Emotion;
 
 /// The default capacity of texel dictionary.
-const SPEC_CAPACITY_TEXEL:  usize = 4095;
+const SPEC_CAPACITY_TEXEL:  usize = 4096;
 /// The default capacity of sprite dictionary.
 const SPEC_CAPACITY_SPRITE: usize = 1024;
 
@@ -79,11 +79,15 @@ impl Manager {
                   if let (Some(position),
                           Some(part),
                           Some(emotion),
-                          Some(glyph)) = (Position::new(&content).ok(),
+                          glyph) = (Position::new(&content).ok(),
                                           Part::new(pt).ok(),
                                           Emotion::new(emotion).ok(),
-                                          character.as_bytes().first()) {
-                    if let Ok(texel) = Texel::new(pt, *glyph) {
+                                          character.as_bytes()) {
+                    if let Ok(texel) = Texel::new(pt, unsafe {
+                      mem::transmute::<[u8; 4], u32>(
+                        [glyph[0], glyph[1], glyph[2], glyph[3]]
+                      )
+                    }) {
                       self.insert_texel(
                         (position, part, emotion),
                         texel
@@ -108,15 +112,15 @@ impl Manager {
   }
 
   /// The function `from_file_sprite` insert a sprite from a file.
-  pub fn insert_from_spritefile<S: AsRef<OsStr> >(
+  pub fn insert_from_spritefile(
     &mut self,
-    filename: S,
+    filename: String,
   ) {
     let mut sprite: Sprite = Sprite::default();
 
-    match fs::OpenOptions::new().read(true).open(filename.as_ref()) {
-      Err(why) => panic!("couldn't create {:?}: {}",
-                        filename.as_ref(),
+    match fs::OpenOptions::new().read(true).open(&filename) {
+      Err(why) => panic!("couldn't create {}: {}",
+                        filename,
                         why.description()),
       Ok(mut file) => {
         let mut buffer = String::new();
@@ -134,7 +138,7 @@ impl Manager {
               SPEC_MAX_XY*2
             );
             potential_draw_chunks.all(|chunck| {
-              let mut pairs = chunck.chunks(2);
+              let pairs = chunck.chunks(2);
 
               /* filter_map vs match... Fight! */
 
@@ -170,6 +174,7 @@ impl Manager {
                 false
               }
             });
+            self.insert_sprite(filename, sprite);
           }
         }
       }

@@ -2,8 +2,6 @@ pub mod texel;
 pub mod draw;
 mod err;
 
-use std::fmt;
-
 use self::draw::Draw;
 pub use self::err::{SpriteError, Result};
 pub use self::texel::Texel;

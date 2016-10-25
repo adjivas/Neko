@@ -15,14 +15,15 @@ pub struct Library {
   /// Address of the library.
   path: PathBuf,
   /// dynamic library interface.
+  #[allow(dead_code)]
   dylib: dylib::DynamicLibrary,
   /// priority queue.
-  index: usize,
+  index: i64,
 }
 
 impl Library {
   /// The constructor method `new` returns a interface for a extern library.
-  pub fn new(path: PathBuf, index: usize) -> Result<Self> {
+  pub fn new(path: PathBuf, index: i64) -> Result<Self> {
     match dylib::DynamicLibrary::open(Some(&path)) {
       Err(why) => Err(LibraryError::BadDyLib(why)),
       Ok(lib) => unsafe {
@@ -87,6 +88,10 @@ impl Ord for Library {
 impl fmt::Debug for Library {
   /// Formats the value using the given formatter.
   fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-    write!(f, "library({}): start:{}", self.index, self.start.is_some())
+      write!(f, "library({}): start:{} path:({:?})",
+             self.index,
+             self.start.is_some(),
+             self.path
+      )
   }
 }

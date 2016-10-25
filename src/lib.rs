@@ -29,5 +29,8 @@ extern crate dylib;
 extern crate git2;
 extern crate toml;
 
+#[macro_use]
+/// The macros of crate.
+mod macros;
 /// The module `dynamic` is the compositer of extern libraries.
 pub mod dynamic;

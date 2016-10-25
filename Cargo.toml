@@ -18,11 +18,15 @@ license         = "GPL-3.0"
 name            = "neko"
 path            = "src/main.rs"
 doc             = false
+test            = false
+
 
 [lib]
 name             = "neko"
 path             = "src/lib.rs"
 plugin           = true
+doctest          = false
+test             = false
 
 [features]
 default          = []

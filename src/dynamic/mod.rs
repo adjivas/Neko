@@ -126,6 +126,7 @@ impl Compositer {
     }
 
     /// The accessor method `get_manifest` returns a dictionary.
+    /// @repository: `$HOME/.neko/git/arukana@libnya`.
     pub fn get_manifest (
         &self,
         repository: &PathBuf
@@ -150,6 +151,8 @@ impl Compositer {
     }
 
     /// The method `mount` adds a new library to the heap's compositer.
+    /// @ libraryname: `arukana@libnya`.
+    /// @ libraryname: `Some(-1)` or `None` for zero by default.
     pub fn mount<S: AsRef<OsStr>>(
         &mut self,
         libraryname: &S,
@@ -185,6 +188,7 @@ impl Compositer {
     }
 
     /// The method `unmount` removes library from the queue.
+    /// @ libraryname: `arukana@libnya`.
     pub fn unmount<S: AsRef<OsStr>>(
         &mut self, libraryname: S
     ) -> Result<Library> {
@@ -203,8 +207,12 @@ impl Compositer {
 
     /// The method `build` makes and adds a dynamic library
     /// to SPEC_MANIFEST's destination.
-    pub fn build<S: AsRef<Path>>(
-        &self, source: &PathBuf, sub: &S, lib: &str
+    /// @ source: `$HOME/.neko/git/Arukana@libnya`.
+    /// @ sub: `arukana@libnya`.
+    /// @ lib: `libnya`.
+    /// @ mount: `true`.
+    pub fn build<S: AsRef<OsStr> + AsRef<Path>>(
+        &self, source: &PathBuf, sub: &S, lib: &str, mount: bool,
     ) -> Result<()> {
         match self.get_lib() {
             Err(why) => Err(why),
@@ -217,10 +225,16 @@ impl Compositer {
                         fs::rename(
                             source.join(lib)
                                   .with_extension(SPEC_LIB_EXT),
-                            dest.join(sub)
+                            dest.join(&sub)
                                 .with_extension(SPEC_LIB_EXT)
                         ).or_else(|why: io::Error|
                                   Err(CompositerError::MvFail(why))
+                        ).and_then(|_|
+                            if mount {
+                                self.mount(sub, None)
+                            } else {
+                                Ok(())
+                            }
                         )
                     } else {
                         Err(CompositerError::BuildExit(status))
@@ -242,6 +256,8 @@ impl Compositer {
 */
     /// The methodd `install` clones and makes a dynamic library from repository
     /// and recursive call the dependencies.
+    /// @ repo: `https://github.com/Arukana/libnya.git`.
+    /// @ mount: `true`.
     pub fn install(&mut self, repo: &str, mount: bool) -> Result<()> {
         self.get_git().and_then(|git|
             if let Some((sub, _, lib)) = parse_name!(repo) {
@@ -251,17 +267,7 @@ impl Compositer {
                 } else {
                     match git2::Repository::clone(&repo, &dest) {
                         Err(why) => Err(CompositerError::InstallClone(why)),
-                        Ok(_) => {
-                            self.build(&dest, &sub, &lib).and(
-                                if mount {
-                                    self.mount(&sub, None)
-                                } else {
-                                    Ok(())
-                                }
-                            )/*.and(
-                                self.dependency(&repo)
-                            )*/
-                        },
+                        Ok(_) => self.build(&dest, &sub, &lib, mount),
                     }
                 }
             }
@@ -299,37 +305,44 @@ impl Compositer {
         }
     }
 
-    pub fn update(&mut self, repo: &str) -> Result<()> {
-      self.get_git().and_then(|git|
-        match git2::Repository::open(&git.join(&repo)) {
-          Err(why) => Err(CompositerError::UpdateRepOpen(why)),
-          Ok(rep) => {
-            match rep.find_remote("origin") {
-              Err(why) => Err(CompositerError::UpdateRepOrigin(why)),
-              Ok(mut remote) => {
-                if let Some(why) = remote.fetch(
-                  &["refs/heads/*:refs/heads/*"], None, None
-                ).err() {
-                  Err(CompositerError::UpdateRepFetch(why))
-                } else {
-                    self.update_from_master(&rep)
-                }
-              },
+    /// The method `update` hard-resets the master branch to last commit.
+    /// @ libraryname: `arukana@libnya`.
+    pub fn update(&mut self, libraryname: &str) -> Result<()> {
+        self.get_git().and_then(|git| {
+            let dest: PathBuf = git.join(&libraryname);
+            match git2::Repository::open(&dest) {
+                Err(why) => Err(CompositerError::UpdateRepOpen(why)),
+                Ok(rep) => {
+                    match rep.find_remote("origin") {
+                        Err(why) => Err(CompositerError::UpdateRepOrigin(why)),
+                        Ok(mut remote) => {
+                            if let Some(why) = remote.fetch(
+                                &["refs/heads/*:refs/heads/*"], None, None
+                            ).err() {
+                                Err(CompositerError::UpdateRepFetch(why))
+                            } else {
+                                self.update_from_master(&rep)
+                                    .and_then(|_|
+                                            self.build(&dest, &libraryname, &lib, true)
+                                )
+                            }
+                        },
+                    }
+                },
             }
-          },
-        }
-      )
+        })
     }
 
     /// The method `uninstall` removes library from the filesystem with
     /// the source.
+    /// @libraryname: `arukana@libnya`.
     pub fn uninstall<S: AsRef<OsStr>>(
         &mut self,
-        name: &S
+        libraryname: &S
     ) -> Result<()> {
-        match self.unmount(name) {
+        match self.unmount(libraryname) {
             Ok(_) | Err(CompositerError::UnmountPosition) => {
-                let path: PathBuf = PathBuf::from(name);
+                let path: PathBuf = PathBuf::from(libraryname);
                 match (self.get_git(), self.get_lib()) {
                     (Ok(git), Ok(lib)) => {
                         if let Err(why) = fs::remove_file(

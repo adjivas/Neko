@@ -12,7 +12,24 @@ macro_rules! parse_number {
 }
 
 #[macro_export]
-macro_rules! parse_name {
+macro_rules! only_rep {
+    ($sub: expr) => ({
+        let lib: &OsStr = $sub.as_ref();
+        unsafe {
+            let name: &str = lib.to_str().unwrap_or_default();
+
+            name.slice_unchecked(
+                name.find('@').and_then(|index|
+                                        Some(index+1)
+                ).unwrap_or_default(),
+                name.len()
+            )
+        }
+    });
+}
+
+#[macro_export]
+macro_rules! account_at_rep {
     ($start: expr) => ({
         use std::ops::BitOr;
         if let (Some(middle), true) = (
@@ -30,7 +47,7 @@ macro_rules! parse_name {
                 if left.is_empty().bitor(right.is_empty()) {
                   None
                 } else {
-                  Some((all, left, right))
+                  Some(all)
                 }
             })
         } else {

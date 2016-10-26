@@ -1,11 +1,14 @@
 extern crate neko;
 
 use neko::dynamic::Compositer;
+use std::path::PathBuf;
 
 fn main() {
- let compositer: Compositer = Compositer::new().unwrap();
+    let mut compositer: Compositer = Compositer::new().unwrap();
 
-    println!("{:?}", compositer );
- // println!("{:?}", compositer.mount_from_git("https://github.com/Arukana/libnya.git", None) );
-// println!("{:?}", compositer.uninstall("libnya") );
+    println!("{:?}", compositer.build(
+        &PathBuf::from("/home/adjivas/.neko/git/arukana@libnya"),
+        "arukana@libnya",
+        )
+    );
 }

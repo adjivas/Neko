@@ -116,7 +116,7 @@ impl Compositer {
 
     /// The accessor method `git_with_lib` returns a couple
     /// of `git` and `lib` sub-repositories.
-    pub fn git_with_lib(
+    pub fn git_with_lib (
         &mut self,
     ) -> Result<(PathBuf, PathBuf)> {
         match (self.get_git(), self.get_lib()) {
@@ -209,10 +209,9 @@ impl Compositer {
     /// to SPEC_MANIFEST's destination.
     /// @ source: `$HOME/.neko/git/Arukana@libnya`.
     /// @ sub: `arukana@libnya`.
-    /// @ lib: `libnya`.
     /// @ mount: `true`.
-    pub fn build<S: AsRef<OsStr> + AsRef<Path>>(
-        &self, source: &PathBuf, sub: &S, lib: &str, mount: bool,
+    pub fn build<S: AsRef<OsStr> + AsRef<Path>> (
+        &mut self, source: &PathBuf, sub: S
     ) -> Result<()> {
         match self.get_lib() {
             Err(why) => Err(why),
@@ -223,18 +222,12 @@ impl Compositer {
                     Err(why) => Err(CompositerError::BuildCommand(why)),
                     Ok(status) => if status.success() {
                         fs::rename(
-                            source.join(lib)
-                                  .with_extension(SPEC_LIB_EXT),
-                            dest.join(&sub)
-                                .with_extension(SPEC_LIB_EXT)
+                            source.join(only_rep!(sub)).with_extension(SPEC_LIB_EXT),
+                            dest.join(&sub).with_extension(SPEC_LIB_EXT)
                         ).or_else(|why: io::Error|
                                   Err(CompositerError::MvFail(why))
-                        ).and_then(|_|
-                            if mount {
-                                self.mount(sub, None)
-                            } else {
-                                Ok(())
-                            }
+                        ).and_then(|_: ()|
+                            self.mount(&sub, None).and(self.dependency(source))
                         )
                     } else {
                         Err(CompositerError::BuildExit(status))
@@ -243,31 +236,60 @@ impl Compositer {
             },
         }
     }
-/*
-    pub fn dependency(&self, repository: &PathBuf) -> Result<()> {
-        match self.get_manifest(repository) {
-            Err(why) => Err(why),
-            Ok(table) => {
-                println!("{:?}", table);
+
+    /// The method `dependency` lists the dependencies from
+    /// repository dynamic library and install.
+    /// @ source: `$HOME/.neko/git/Arukana@libnya`.
+    /// @ mount: `true`.
+    pub fn dependency(
+        &mut self, source: &PathBuf
+    ) -> Result<()> {
+        self.get_manifest(source).and_then(|table|{
+            if let Some(why) = table.get("dependencies").and_then(|deps|
+                deps.as_table().and_then(|table|
+                    table.into_iter().filter_map(|dep|
+                        dep.1.as_table().and_then(|table|
+                           table.get("git").and_then(|git|
+                                git.as_str().and_then(|repo|
+                                    match self.install(&repo) {
+                                        Err(CompositerError::InstallExists) => {
+                                            account_at_rep!(repo).and_then(|sub|
+                                                match self.update(&sub) {
+                                                    Ok(()) => None,
+                                                    Err(why) => Some(why),
+                                                }
+                                            )
+                                        },
+                                        Ok(()) => None,
+                                        Err(why) => Some(why),
+                                    }
+                                )
+                           )
+                        )
+                    ).next()
+                )
+            ) {
+                Err(why)
+            } else {
                 Ok(())
-            },
-        }
+            }
+        })
     }
-*/
+
     /// The methodd `install` clones and makes a dynamic library from repository
     /// and recursive call the dependencies.
     /// @ repo: `https://github.com/Arukana/libnya.git`.
     /// @ mount: `true`.
-    pub fn install(&mut self, repo: &str, mount: bool) -> Result<()> {
+    pub fn install(&mut self, repo: &str) -> Result<()> {
         self.get_git().and_then(|git|
-            if let Some((sub, _, lib)) = parse_name!(repo) {
+            if let Some(sub) = account_at_rep!(repo) {
                 let dest: PathBuf = git.join(&sub);
                 if dest.exists() {
                     Err(CompositerError::InstallExists)
                 } else {
                     match git2::Repository::clone(&repo, &dest) {
                         Err(why) => Err(CompositerError::InstallClone(why)),
-                        Ok(_) => self.build(&dest, &sub, &lib, mount),
+                        Ok(_) => self.build(&dest, &sub),
                     }
                 }
             }
@@ -323,7 +345,7 @@ impl Compositer {
                             } else {
                                 self.update_from_master(&rep)
                                     .and_then(|_|
-                                            self.build(&dest, &libraryname, &lib, true)
+                                            self.build(&dest, &libraryname)
                                 )
                             }
                         },

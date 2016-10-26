@@ -28,9 +28,13 @@
 
 #![doc(html_logo_url = "https://arukana.github.io/Neko/images/neko.png")]
 
-extern crate git2;
 extern crate dylib;
+extern crate git2;
+extern crate toml;
 
+#[macro_use]
+/// The macros of crate.
+mod macros;
 /// The module `dynamic` is the compositer of extern libraries.
 pub mod dynamic;
 /// The module `graphic` is the manager of neko's sprites

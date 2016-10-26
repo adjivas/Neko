@@ -152,7 +152,7 @@ impl Compositer {
 
     /// The method `mount` adds a new library to the heap's compositer.
     /// @ libraryname: `arukana@libnya`.
-    /// @ libraryname: `Some(-1)` or `None` for zero by default.
+    /// @ priority: `Some(-1)` or `None` for zero by default.
     pub fn mount<S: AsRef<OsStr>>(
         &mut self,
         libraryname: &S,
@@ -209,7 +209,6 @@ impl Compositer {
     /// to SPEC_MANIFEST's destination.
     /// @ source: `$HOME/.neko/git/Arukana@libnya`.
     /// @ sub: `arukana@libnya`.
-    /// @ mount: `true`.
     pub fn build<S: AsRef<OsStr> + AsRef<Path>> (
         &mut self, source: &PathBuf, sub: S
     ) -> Result<()> {
@@ -240,7 +239,6 @@ impl Compositer {
     /// The method `dependency` lists the dependencies from
     /// repository dynamic library and install.
     /// @ source: `$HOME/.neko/git/Arukana@libnya`.
-    /// @ mount: `true`.
     pub fn dependency(
         &mut self, source: &PathBuf
     ) -> Result<()> {
@@ -279,7 +277,6 @@ impl Compositer {
     /// The methodd `install` clones and makes a dynamic library from repository
     /// and recursive call the dependencies.
     /// @ repo: `https://github.com/Arukana/libnya.git`.
-    /// @ mount: `true`.
     pub fn install(&mut self, repo: &str) -> Result<()> {
         self.get_git().and_then(|git|
             if let Some(sub) = account_at_rep!(repo) {

@@ -9,11 +9,14 @@
 //!
 //! This library contains the module `graphic` and `dynamic`.
 
+#![feature(slice_patterns)]
+#![feature(advanced_slice_patterns)]
+
 #![crate_type= "lib"]
 #![cfg_attr(feature = "nightly", feature(plugin))]
 #![cfg_attr(feature = "lints", plugin(clippy))]
 #![cfg_attr(feature = "lints", deny(warnings))]
-#![cfg_attr(not(any(feature = "lints", feature = "nightly")), deny(unstable_features))]
+#![cfg_attr(not(any(feature = "lints", feature = "nightly")), deny())]
 #![deny(
         missing_debug_implementations,
         missing_copy_implementations,
@@ -34,3 +37,5 @@ extern crate toml;
 mod macros;
 /// The module `dynamic` is the compositer of extern libraries.
 pub mod dynamic;
+/// The module `graphic` is the manager of neko's sprites
+pub mod graphic;

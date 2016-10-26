@@ -1,14 +1,9 @@
 extern crate neko;
 
-use neko::dynamic::Compositer;
-use std::path::PathBuf;
+use neko::graphic::Manager;
 
 fn main() {
-    let mut compositer: Compositer = Compositer::new().unwrap();
+  let mut manager: Manager = Manager::default();
 
-    println!("{:?}", compositer.build(
-        &PathBuf::from("/home/adjivas/.neko/git/arukana@libnya"),
-        "arukana@libnya",
-        )
-    );
+    manager.insert_from_spritefile("/home/ubuntu/workspace/Neko_graphic/.neko/config/sprite/1.cns".to_string());
 }

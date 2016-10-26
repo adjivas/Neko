@@ -1,10 +1,9 @@
 extern crate neko;
 
-use neko::dynamic::Compositer;
+use neko::graphic::Manager;
 
 fn main() {
-  let mut compositer: Compositer = Compositer::default();
-
-  println!("{:?}", compositer.mount_from_git("https://github.com/Arukana/libnya.git", None) );
-// println!("{:?}", compositer.uninstall("libnya") );
+  let mut manager: Manager = Manager::default();
+  
+  manager.insert_from_spritefile("/home/ubuntu/workspace/Neko_graphic/.neko/config/sprite/1.cns".to_string());
 }

@@ -1,6 +1,5 @@
 pub mod err;
 
-use std::ffi::OsStr;
 pub use self::err::{PositionError, Result};
 
 #[derive(Clone, Copy, Eq, PartialEq, Hash, Debug)]
@@ -14,9 +13,9 @@ impl Position {
   pub fn new (content: &str) -> Result<Self> {
     match content {
       "LotusHandsOnFloor" => Ok(Position::LotusHandsOnFloor),
-      "LyingOnSomething" => Ok(Position::LyingOnSomething),
-      "None" => Ok(Position::None),
-      _ => unimplemented!()
+      "LyingOnSomething"  => Ok(Position::LyingOnSomething),
+      "None"              => Ok(Position::None),
+                        _ => Err(PositionError::UnknownPosition),
     }
   }
 }

@@ -1,6 +1,5 @@
 use std::error::Error;
 use std::fmt;
-use std::io;
 
 use super::part::PartError;
 
@@ -11,7 +10,7 @@ pub type Result<T> = ::std::result::Result<T, TexelError>;
 #[derive(Clone, Copy, Debug)]
 pub enum TexelError {
   PartFail(PartError),
-  ForbiddenGlyph(u8),
+  ForbiddenGlyph(u32),
 }
 
 impl fmt::Display for TexelError {

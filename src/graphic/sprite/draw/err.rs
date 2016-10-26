@@ -1,31 +1,30 @@
 use std::error::Error;
 use std::fmt;
 
-pub type Result<T> = ::std::result::Result<T, PartError>;
+pub type Result<T> = ::std::result::Result<T, DrawError>;
 
-/// The enum `PartError` defines the possible errors
-/// from constructor Part.
+
+/// The enum `DrawError` defines the possible errors
+/// from constructor Position.
 #[derive(Clone, Copy, Debug)]
-pub enum PartError {
-  UnknownPart,
+pub enum DrawError {
+  OutOfSize,
 }
 
-impl fmt::Display for PartError {
+impl fmt::Display for DrawError {
 
   /// The function `fmt` formats the value using
   /// the given formatter.
-  fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-    write!(f, "{}", self)
+  fn fmt(&self, _: &mut fmt::Formatter) -> fmt::Result {
+    Ok(())
   }
 }
 
-impl Error for PartError {
+impl Error for DrawError {
   /// The function `description` returns a short description of
   /// the error.
   fn description(&self) -> &str {
-    match *self {
-      PartError::UnknownPart => "The texel value is unknown.",
-    }
+    "The slice is out of size."
   }
 
   /// The function `cause` returns the lower-level cause of

@@ -1,5 +1,5 @@
-mod library;
-pub mod err;
+pub mod library;
+mod err;
 
 use ::git2;
 use ::toml;

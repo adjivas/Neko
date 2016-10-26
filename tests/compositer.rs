@@ -32,7 +32,7 @@ fn test_compositer_command() {
 
         env::set_var("HOME", "/tmp/arukana3");
         assert!(compositer.install(
-            "https://github.com/Arukana/libnya.git", true
+            "https://github.com/Arukana/libnya.git"
         ).is_ok());
         assert!(compositer.mount(
             &"arukana@libnya", None
@@ -44,7 +44,7 @@ fn test_compositer_command() {
             "arukana@libnya"
         ).is_ok());
         assert!(compositer.install(
-            "https://github.com/Arukana/libnya.git", false
+            "https://github.com/Arukana/libnya.git"
         ).is_err());
         assert!(compositer.unmount(
             "arukana@libnya"
@@ -64,7 +64,7 @@ fn test_compositer_command() {
 
         env::set_var("HOME", "/tmp/arukana4");
         assert!(compositer.install(
-            "https://github.com/Arukana/libnya.git", false
+            "https://github.com/Arukana/libnya.git"
         ).is_ok());
         assert!(compositer.uninstall(
             &"arukana@libnya"

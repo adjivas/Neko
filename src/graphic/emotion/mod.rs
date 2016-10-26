@@ -1,4 +1,4 @@
-pub mod err;
+mod err;
 
 pub use self::err::{EmotionError, Result};
 

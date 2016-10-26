@@ -39,3 +39,5 @@ mod macros;
 pub mod dynamic;
 /// The module `graphic` is the manager of neko's sprites
 pub mod graphic;
+/// The module `prelude` is for public.
+pub mod prelude;

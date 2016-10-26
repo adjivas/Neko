@@ -1,6 +1,6 @@
-mod sprite;
-mod emotion;
-mod position;
+pub mod sprite;
+pub mod emotion;
+pub mod position;
 
 use std::collections::VecDeque;
 use std::collections::HashMap;

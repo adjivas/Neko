@@ -1,6 +1,5 @@
 mod err;
 
-
 use ::dylib;
 pub use self::err::{LibraryError, Result};
 use std::cmp::{Eq, Ordering};

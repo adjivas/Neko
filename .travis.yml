@@ -13,7 +13,9 @@ branches:
 # Only while clippy is failing
 matrix:
   allow_failures:
-    - rust: nightly
+    - rust:
+      - stable
+      - beta
 env:
   global:
     - PATH="$PATH:$TRAVIS_BUILD_DIR/target/debug"

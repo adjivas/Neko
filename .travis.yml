@@ -2,20 +2,12 @@ sudo: false
 language: rust
 rust: 
   - nightly
-  - stable
-  - beta
 
 branches:
   except:
     - notes
     - developers-guides
 
-# Only while clippy is failing
-matrix:
-  allow_failures:
-    - rust:
-      - stable
-      - beta
 env:
   global:
     - PATH="$PATH:$TRAVIS_BUILD_DIR/target/debug"

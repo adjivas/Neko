@@ -1,6 +1,7 @@
 extern crate neko;
 
-use neko::dynamic::Compositer;
+use neko::prelude::*;
+
 use self::std::path::PathBuf;
 use self::std::env;
 

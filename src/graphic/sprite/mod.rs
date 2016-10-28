@@ -5,10 +5,10 @@ mod err;
 use self::draw::Draw;
 pub use self::err::{SpriteError, Result};
 pub use self::texel::Texel;
-pub use super::position::{Position, PositionError};
 pub use super::emotion::{Emotion, EmotionError};
+pub use super::position::{Position, PositionError};
 
-const SPEC_CAPACITY_SHEET: usize  = 5;
+const SPEC_CAPACITY_SHEET: usize = 5;
 
 #[derive(Clone, Debug)]
 pub struct Sprite {
@@ -16,18 +16,13 @@ pub struct Sprite {
 }
 
 impl Sprite {
-  pub fn insert(
-    &mut self,
-    draw: Draw,
-  ) {
+  pub fn insert(&mut self, draw: Draw) {
     self.sheet.push(draw);
   }
 }
 
 impl Default for Sprite {
   fn default() -> Sprite {
-    Sprite {
-      sheet: Vec::with_capacity(SPEC_CAPACITY_SHEET),
-    }
+    Sprite { sheet: Vec::with_capacity(SPEC_CAPACITY_SHEET) }
   }
 }

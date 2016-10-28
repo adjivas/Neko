@@ -10,12 +10,12 @@ pub enum Position {
 }
 
 impl Position {
-  pub fn new (content: &str) -> Result<Self> {
+  pub fn new(content: &str) -> Result<Self> {
     match content {
       "LotusHandsOnFloor" => Ok(Position::LotusHandsOnFloor),
-      "LyingOnSomething"  => Ok(Position::LyingOnSomething),
-      "None"              => Ok(Position::None),
-                        _ => Err(PositionError::UnknownPosition),
+      "LyingOnSomething" => Ok(Position::LyingOnSomething),
+      "None" => Ok(Position::None),
+      _ => Err(PositionError::UnknownPosition),
     }
   }
 }

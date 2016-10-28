@@ -14,7 +14,6 @@ pub enum TexelError {
 }
 
 impl fmt::Display for TexelError {
-
   /// The function `fmt` formats the value using
   /// the given formatter.
   fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {

@@ -28,6 +28,7 @@
 
 #![doc(html_logo_url = "https://arukana.github.io/Neko/images/neko.png")]
 
+extern crate pty_proc;
 extern crate dylib;
 extern crate git2;
 extern crate toml;
@@ -35,9 +36,69 @@ extern crate toml;
 #[macro_use]
 /// The macros of crate.
 mod macros;
+/// The module `prelude` is for public.
+pub mod prelude;
 /// The module `dynamic` is the compositer of extern libraries.
 pub mod dynamic;
 /// The module `graphic` is the manager of neko's sprites
 pub mod graphic;
-/// The module `prelude` is for public.
-pub mod prelude;
+
+mod err;
+
+use std::fmt;
+
+pub use self::err::{NekoError, Result};
+use pty_proc::shell::{Shell, ShellState};
+
+use dynamic::Compositer;
+use graphic::Manager;
+
+/// The module `neko` is the first interface level.
+pub struct Neko {
+    dynamic: Compositer,
+    graphic: Manager,
+    shell: Shell,
+}
+
+impl Neko {
+    pub fn new(
+        repeat: Option<i64>,
+        interval: Option<i64>,
+    ) -> Result<Self> {
+        match (
+            Shell::from_mode(repeat, interval, None, pty_proc::shell::mode::Mode::Character),
+            Compositer::new(),
+            Manager::new()
+        ) {
+            (Err(why), _, _) => Err(NekoError::ShellFail(why)),
+            (_, Err(why), _) => Err(NekoError::DynamicFail(why)),
+            (_, _, Err(why)) => Err(NekoError::GraphicFail(why)),
+            (Ok(shell), Ok(dynamic), Ok(graphic)) => Ok(Neko {
+                dynamic: dynamic,
+                graphic: graphic,
+                shell: shell,
+            }),
+        }
+    }
+}
+
+impl Iterator for Neko {
+    type Item = ShellState;
+
+    fn next(&mut self) -> Option<ShellState> {
+        if let Some(mut next) = self.shell.next() {
+/*            if next.is_idle() {
+                self.dynamic.into_inner().all
+            }*/
+            Some(next)
+        } else {
+            None
+        }
+    }
+}
+
+impl fmt::Debug for Neko {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{:?} {:?}", self.dynamic, self.graphic)
+    }
+}

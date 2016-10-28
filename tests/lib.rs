@@ -23,7 +23,6 @@ fn test_macros_git() {
     );
 }
 
-
 #[test]
 fn test_macros_git_unvalid() {
     assert_eq!(

@@ -1,17 +1,17 @@
 pub mod err;
 pub mod part;
 
-use std::fmt;
+pub use self::err::{TexelError, Result};
 
 use self::part::Part;
-pub use self::err::{TexelError, Result};
+use std::fmt;
 
 #[derive(Clone, Copy, Debug)]
 pub struct Texel(Part, u32);
 
 impl Texel {
   pub fn new(part: &str, glyph: u32) -> Result<Self> {
-    if let 57344 ... 63743 = glyph {
+    if let 57344...63743 = glyph {
       match Part::new(part) {
         Ok(part) => Ok(Texel(part, glyph)),
         Err(why) => Err(TexelError::PartFail(why)),

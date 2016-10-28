@@ -12,7 +12,6 @@ pub enum DrawError {
 }
 
 impl fmt::Display for DrawError {
-
   /// The function `fmt` formats the value using
   /// the given formatter.
   fn fmt(&self, _: &mut fmt::Formatter) -> fmt::Result {

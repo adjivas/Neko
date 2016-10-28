@@ -12,7 +12,6 @@ pub enum EmotionError {
 }
 
 impl fmt::Display for EmotionError {
-
   /// The function `fmt` formats the value using
   /// the given formatter.
   fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {

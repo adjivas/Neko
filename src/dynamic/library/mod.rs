@@ -11,6 +11,8 @@ use std::path::PathBuf;
 pub struct Library {
   /// `start` interface.
   start: Option<fn()>,
+  /// `idle` interface.
+  idle: Option<fn()>,
   /// Address of the library.
   path: PathBuf,
   /// dynamic library interface.
@@ -27,11 +29,15 @@ impl Library {
       Err(why) => Err(LibraryError::BadDyLib(why)),
       Ok(lib) => unsafe {
         Ok(Library {
-          start: if let Some(start) = lib.symbol::<*mut u8>("start")
-            .ok() {
+          start: if let Some(start) = lib.symbol::<*mut u8>("start").ok() {
             Some(mem::transmute::<*mut *mut u8, fn()>(start))
           } else {
             None
+          },
+          idle: if let Some(idle) = lib.symbol::<*mut u8>("idle").ok() {
+             Some(mem::transmute::<*mut *mut u8, fn()>(idle))
+          } else {
+              None
           },
           path: path,
           dylib: lib,
@@ -46,10 +52,22 @@ impl Library {
     &self.path
   }
 
+  /// The accessor method `get_priority` return level's priority of library.
+  pub fn get_priority(&self) -> i64 {
+    self.index
+  }
+
   /// The method `start` call the extern function if defined.
   pub fn start(&self) {
     if let Some(start) = self.start {
       start();
+    }
+  }
+
+  /// The method `idle` call the extern function if defined.
+  pub fn idle(&self) {
+    if let Some(idle) = self.idle {
+      idle();
     }
   }
 }

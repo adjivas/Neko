@@ -28,6 +28,8 @@
 
 #![doc(html_logo_url = "https://arukana.github.io/Neko/images/neko.png")]
 
+#[macro_use]
+extern crate itertools;
 extern crate pty_proc;
 extern crate dylib;
 extern crate git2;
@@ -86,10 +88,8 @@ impl Iterator for Neko {
     type Item = ShellState;
 
     fn next(&mut self) -> Option<ShellState> {
-        if let Some(mut next) = self.shell.next() {
-/*            if next.is_idle() {
-                self.dynamic.into_inner().all
-            }*/
+        if let Some(next) = self.shell.next() {
+            self.dynamic.call(&next);
             Some(next)
         } else {
             None

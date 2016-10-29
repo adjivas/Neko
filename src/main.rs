@@ -1,9 +1,13 @@
 extern crate neko;
 
-use neko::graphic::Manager;
+use neko::Neko;
 
 fn main() {
-  let mut manager: Manager = Manager::default();
+    let mut neko: Neko = Neko::new(None, None).unwrap();
 
-    manager.insert_from_spritefile("/home/ubuntu/workspace/Neko_graphic/.neko/config/sprite/1.cns".to_string());
+    while let Some(shell) = neko.next() {
+        if let Some(output) = shell.is_output_screen() {
+            print!("{}", output)
+        }
+    }
 }

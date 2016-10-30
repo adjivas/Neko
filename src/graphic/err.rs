@@ -8,10 +8,14 @@ pub type Result<T> = ::std::result::Result<T, ManagerError>;
 /// from constructor Manager.
 #[derive(Debug)]
 pub enum ManagerError {
-    /// Can't read the `texel` sub-directory.
-    ReadDirTexel(io::Error),
-    /// Can't read the `sprite` sub-directory.
-    ReadDirSprite(io::Error),
+    /// Can't read the sub-directory.
+    ReadDir(io::Error),
+    /// Can't create the texel sub-directory.
+    MkDirTexel(io::Error),
+    /// Can't create the sprite sub-directory.
+    MkDirSprite(io::Error),
+    /// Can't found the $HOME environement variable.
+    Home,
 }
 
 impl fmt::Display for ManagerError {
@@ -27,8 +31,10 @@ impl Error for ManagerError {
   /// the error.
   fn description(&self) -> &str {
       match *self {
-          ManagerError::ReadDirTexel(_) => "Can't read the `texel` sub-directory.",
-          ManagerError::ReadDirSprite(_) => "Can't read the `sprite` sub-directory.",
+          ManagerError::ReadDir(_) => "Can't read the sub-directory.",
+          ManagerError::MkDirTexel(_) => "Can't create the texel sub-directory.",
+          ManagerError::MkDirSprite(_) => "Can't create the sprite sub-directory.",
+          ManagerError::Home => "Can't found the $HOME environement variable.",
       }
   }
 
@@ -36,8 +42,10 @@ impl Error for ManagerError {
   /// this error if any.
   fn cause(&self) -> Option<&Error> {
       match *self {
-          ManagerError::ReadDirTexel(ref why) => Some(why),
-          ManagerError::ReadDirSprite(ref why) => Some(why),
+          ManagerError::ReadDir(ref why) |
+          ManagerError::MkDirTexel(ref why) |
+          ManagerError::MkDirSprite(ref why) => Some(why),
+          _ => None,
       }
   }
 }

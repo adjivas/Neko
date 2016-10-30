@@ -55,6 +55,9 @@ use pty_proc::shell::{Shell, ShellState};
 use dynamic::Compositer;
 use graphic::Manager;
 
+/// The first directory.
+const SPEC_ROOT: &'static str = ".neko";
+
 /// The module `neko` is the first interface level.
 pub struct Neko {
     dynamic: Compositer,

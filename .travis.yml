@@ -1,38 +1,33 @@
+---
 sudo: false
 language: rust
-rust: 
-  - nightly-2016-10-25
-
-branches:
-  except:
-    - notes
-    - developers-guides
-
-env:
-  global:
-    - PATH="$PATH:$TRAVIS_BUILD_DIR/target/debug"
-cache:
-  directories:
-    - $TRAVIS_BUILD_DIR/target
-    - $HOME/.cargo
-
-before_script:
-  - pip install 'travis-cargo<0.2' --user && export PATH=$HOME/.local/bin:$PATH
-  - ssh-keygen -t rsa -f ~/.ssh/id_rsa -N "" -q
-  - eval `ssh-agent -s`
-  - ssh-add ~/.ssh/id_rsa
-  - cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
-  - telnet localhost 22 &
-
-script:
-  - cargo build --verbose
 
 addons:
   apt:
-    sources:
-      - kalakris-cmake
     packages:
-      - cmake
       - libcurl4-openssl-dev
       - libelf-dev
       - libdw-dev
+
+rust:
+  - nightly
+  - beta
+  - stable
+
+before_script:
+  - pip install 'travis-cargo<0.2' --user && export PATH=$HOME/.local/bin:$PATH
+
+script:
+  - |
+      travis-cargo build &&
+      travis-cargo test &&
+      travis-cargo bench
+      travis-cargo --only stable doc
+after_success:
+  - travis-cargo coveralls --no-sudo
+
+env:
+  global:
+    # override the default `--features unstable` used for the nightly branch (optional)
+    - TRAVIS_CARGO_NIGHTLY_FEATURE=nightly
+
